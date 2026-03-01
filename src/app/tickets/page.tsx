@@ -1,4 +1,3 @@
-import {allowedDisplayValues} from "next/dist/compiled/@next/font/dist/constants";
 import {initialTickets} from "@/data";
 import Link from "next/link";
 import {ticketPath} from "@/paths";
@@ -11,7 +10,14 @@ const TICKET_ICONS={
 
 const TicketsPage = () => {
   return (
-    <div>
+   <div className="flex-1 flex flex-col gap-y-8">
+     <div>
+       <h2 className="text-3xl font-bold tracking-tight">TicketsPage</h2>
+       <p className="text-sm text-muted-foreground">
+         All your tickets at one place
+       </p>
+     </div>
+    <div className="flex-1 flex flex-col items-center gap-y-4">
       {
         initialTickets.map((ticket) => (
           <div key={ticket.id}>
@@ -22,6 +28,7 @@ const TicketsPage = () => {
         ))
       }
     </div>
+   </div>
   )
 }
 
