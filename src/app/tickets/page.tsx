@@ -1,6 +1,7 @@
 import {initialTickets} from "@/data";
 import Link from "next/link";
 import {ticketPath} from "@/paths";
+import clsx from "clsx";
 
 const TICKET_ICONS={
   OPEN:"O",
@@ -20,10 +21,19 @@ const TicketsPage = () => {
     <div className="flex-1 flex flex-col items-center gap-y-4">
       {
         initialTickets.map((ticket) => (
-          <div key={ticket.id}>
+          <div key={ticket.id} className="w-full max-w-[420px] p-4 border rounded">
             <div>{TICKET_ICONS[ticket.status]}</div>
-            <h2 className="text-lg">{ticket.title}</h2>
-            <Link href={ticketPath(ticket.id)}>view</Link>
+            <h3 className="text-lg truncate">{ticket.title}</h3>
+            {/*clsx 能通过函数引入判断条件,修改样式*/}
+            <p className={clsx("text-sm text-slate-500 truncate",{
+              "line-through":ticket.status==='DONE'
+            })}>
+              {ticket.content}
+
+            </p>
+            <Link href={ticketPath(ticket.id)} className="text-sm underline">
+              view
+            </Link>
           </div>
         ))
       }
