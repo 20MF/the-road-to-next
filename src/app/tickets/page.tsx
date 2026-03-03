@@ -18,7 +18,7 @@ const TicketsPage = () => {
          All your tickets at one place
        </p>
      </div>
-    <div className="flex-1 flex flex-col items-center gap-y-4">
+    <div className="flex-1 flex flex-col items-center gap-y-4 animate-fade-in-from-top">
       {
         initialTickets.map((ticket) => (
           <div key={ticket.id} className="w-full max-w-[420px] p-4 border rounded">
