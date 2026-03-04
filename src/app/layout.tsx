@@ -1,46 +1,42 @@
 import type {Metadata} from "next";
-import {Geist, Geist_Mono} from "next/font/google";
+import {Geist, Geist_Mono, Inter} from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import {ticketsPath, homePath} from "@/paths";
+import {Button, buttonVariants} from "@/components/ui/button";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "The Road Next",
-  description: "My Road to Next application",
-};
+const inter = Inter({subsets: ["latin"]})
 
 export default function RootLayout({
-                                     children,
+                                       children,
                                    }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-    <body
-      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-    >
-    <nav className="flex justify-between py-2.5 boarder-b">
-      <div>
-        <Link href={homePath()} className="text-lg font-bold">Home</Link>
-      </div>
-      <div>
-        <Link href={ticketsPath()} className="text-sm underline">Tickets</Link>
-      </div>
-    </nav>
-    <main className="py-24 px-8">
-      {children}
-    </main>
-    </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+        <body
+            className={inter.className}
+        >
+        <nav className="flexed left-0 right-0 top-0 z-20 w-full
+                        bg-blackground/95 backdrop-blur px-5
+                        flex justify-between py-2.5 boarder-b">
+            <div>
+                {/*两种使用按钮的方法,第一种,增加Button元素*/}
+                <Button asChild variant="outline">
+                    <Link href={homePath()}>Home</Link>
+                </Button>
+            </div>
+            <div>
+                {/*第二种方法, 在classname中使用buttonVariants函数,把Link元素变体成Button元素*/}
+                <Link href={ticketsPath()} className={buttonVariants({variant: "outline"})}>
+                    Tickets
+                </Link>
+            </div>
+        </nav>
+        <main className="py-24 px-8">
+            {children}
+        </main>
+        </body>
+        </html>
+    );
 }
