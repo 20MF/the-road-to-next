@@ -34,7 +34,7 @@ export default function RootLayout({
             </div>
             <div>
                 {/*第二种方法, 在classname中使用buttonVariants函数,把Link元素变体成Button元素*/}
-                <Link href={ticketsPath()} className={buttonVariants({variant: "ghost"})}>
+                <Link href={ticketsPath()} className={buttonVariants({variant: "default"})}>
                     Tickets
                 </Link>
             </div>
