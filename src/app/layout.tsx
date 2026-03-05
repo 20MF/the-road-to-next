@@ -12,7 +12,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html suppressContentEditableWarning lang="en">
+        <html suppressHydrationWarning lang="en">
         <body
             className={inter.className}
         >
