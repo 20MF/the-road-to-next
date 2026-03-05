@@ -6,6 +6,7 @@ import retry = Interceptors.retry;
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import {ticketsPath} from "@/paths";
+import {TicketItem} from "@/features/ticket/components/ticket-item";
 
 export type TicketProps = {
     params: {
@@ -27,9 +28,8 @@ const TicketPage = ({params}: TicketProps) => {
         )
     }
     return (
-        <div>
-            <h2 className='text-lg'>{ticket.title}</h2>
-            <h2 className='text-sm'>{ticket.content}</h2>
+        <div className="flex justify-center">
+          <TicketItem ticket={ticket} isDetail={true}/>
         </div>
     )
 }
