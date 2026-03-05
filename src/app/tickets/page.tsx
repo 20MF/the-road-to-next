@@ -1,23 +1,22 @@
-"use client"
+// "use client"
 
-import {initialTickets} from "@/data";
 import {Separator} from "@/components/ui/separator";
 import Heading from "@/components/heading";
 import {TicketItem} from "@/features/ticket/components/ticket-item";
-import {useEffect, useState} from "react";
-import {Ticket} from "@/features/types";
-import {getTicket} from "@/features/ticket/queries/get-ticket";
+import {getTickets} from "@/features/ticket/queries/get-tickets";
 
-const TicketsPage = () => {
-    const [tickets, setTickets] = useState<Ticket[]>([]);
-
-    const fetchTickets = async () => {
-        const result = await getTicket()
-        setTickets(result)
-    }
-    useEffect(() => {
-        fetchTickets()
-    }, []);
+// 只有在服务器端组件中才能通过异步操作直接获取数据,客户端组件不能如此操作
+const TicketsPage =async () => {
+    const tickets=await getTickets()
+    // const [tickets, setTickets] = useState<Ticket[]>([]);
+    //
+    // const fetchTickets = async () => {
+    //     const result = await getTickets()
+    //     setTickets(result)
+    // }
+    // useEffect(() => {
+    //     fetchTickets()
+    // }, []);
     return (
         <div className="flex-1 flex flex-col gap-y-8">
             <Heading title="Tickets" description="All your tickets at one place"/>

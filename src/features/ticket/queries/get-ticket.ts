@@ -1,11 +1,15 @@
-import {resolve} from "dns";
 import {Ticket} from "@/features/types";
 import {initialTickets} from "@/data";
 
-export const getTicket = async (): Promise<Ticket[]> => {
-    new Promise(resolve => setTimeout(resolve, 2000))
+const getTicket = async (ticketId: string): Promise<Ticket | null> => {
+    new Promise((resolve) => setTimeout(resolve, 2000))
+
+    const maybeTicket = initialTickets.find(ticket =>
+        (ticket.id === ticketId))
 
     return new Promise((resolve) => {
-        resolve(initialTickets)
+        resolve(maybeTicket || null)
     })
 }
+
+export {getTicket}

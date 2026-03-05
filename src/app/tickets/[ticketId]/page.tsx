@@ -7,14 +7,15 @@ import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import {ticketsPath} from "@/paths";
 import {TicketItem} from "@/features/ticket/components/ticket-item";
+import {getTicket} from "@/features/ticket/queries/get-ticket";
 
 export type TicketProps = {
     params: {
         ticketId: string
     }
 }
-const TicketPage = ({params}: TicketProps) => {
-    const ticket = initialTickets.find(ticket => (ticket.id === params.ticketId))
+const TicketPage = async ({params}: TicketProps) => {
+    const ticket = await getTicket(params.ticketId)
 
     if (!ticket) {
         return (
@@ -29,7 +30,7 @@ const TicketPage = ({params}: TicketProps) => {
     }
     return (
         <div className="flex justify-center">
-          <TicketItem ticket={ticket} isDetail={true}/>
+            <TicketItem ticket={ticket} isDetail={true}/>
         </div>
     )
 }
