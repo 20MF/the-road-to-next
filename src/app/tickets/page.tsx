@@ -6,7 +6,7 @@ import {TicketItem} from "@/features/ticket/components/ticket-item";
 import {getTickets} from "@/features/ticket/queries/get-tickets";
 import {Suspense} from "react";
 import {TicketList} from "@/features/ticket/components/ticket-list";
-import {Spinner} from "@/features/ticket/components/spinner";
+import {Spinner} from "@/app/tickets/[ticketId]/spinner";
 import {ErrorBoundary} from "react-error-boundary";
 import {Placeholder} from "@/components/placeholder";
 
