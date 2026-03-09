@@ -1,6 +1,5 @@
 import {TicketItem} from "@/features/ticket/components/ticket-item";
 import {getTickets} from "@/features/ticket/queries/get-tickets";
-import {Separator} from "@/components/ui/separator";
 
 const TicketList = async () => {
     const tickets = await getTickets()

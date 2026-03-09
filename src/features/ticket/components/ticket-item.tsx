@@ -2,10 +2,10 @@ import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components
 import Link from "next/link";
 import {ticketPath} from "@/paths";
 import {TICKET_ICONS} from "@/features/constants";
-import {Ticket} from "@/features/types";
 import {LucideSquareArrowOutUpRight} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {clsx} from "clsx";
+import {Ticket} from "@/generated/prisma/client";
 
 type TicketProps = {
     ticket: Ticket,
