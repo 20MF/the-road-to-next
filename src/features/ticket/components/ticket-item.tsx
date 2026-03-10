@@ -20,7 +20,7 @@ type TicketProps = {
 const TicketItem = ({ticket, isDetail}: TicketProps) => {
     const detailButton = (
         <Button variant="ghost" size="icon" asChild>
-            <Link href={ticketPath(ticket.id)}>
+            <Link prefetch href={ticketPath(ticket.id)}>
                 <LucideSquareArrowOutUpRight className="h-4 w-4"/>
             </Link>
         </Button>
