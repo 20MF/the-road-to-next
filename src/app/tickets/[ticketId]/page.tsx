@@ -12,7 +12,7 @@ const TicketPage = async ({params}: TicketProps) => {
     const ticket = await getTicket(params.ticketId)
 
     if (!ticket) {
-        notFound()
+        return null
     }
 
     return (
