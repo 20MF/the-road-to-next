@@ -26,14 +26,13 @@ const TicketItem = ({ticket, isDetail}: TicketProps) => {
         </Button>
     )
 
-    const handleDeleteClick = async () => {
-        await deleteTicket(ticket.id)
-    }
-
     const deleteButton = (
-        <Button variant="outline" size="icon" onClick={handleDeleteClick}>
-            <LucideTrash className="h-4 w-4"/>
-        </Button>
+        // 去掉onclic事件,通过form的action属性,bind第二参数,就能把客户端编译,移到服务器端
+        <form action={deleteTicket.bind(null, ticket.id)}>
+            <Button variant="outline" size="icon">
+                <LucideTrash className="h-4 w-4"/>
+            </Button>
+        </form>
     )
     return (
         /*clsx 能通过函数引入判断条件,修改样式*/
