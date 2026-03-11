@@ -1,7 +1,7 @@
 import {CardCompact} from "@/components/card-compact";
 import {getTicket} from "@/features/ticket/queries/get-ticket";
 import {notFound} from "next/navigation";
-import {TicketUpdateForm} from "@/features/ticket/components/ticket-update-form";
+import {TicketUpsertForm} from "@/features/ticket/components/ticket-upsert-form";
 
 type TicketEditPageProps = {
     params: {
@@ -17,7 +17,7 @@ const TicketEditPage =async ({params}: TicketEditPageProps) => {
     return (
         <div className="flex flex-1 flex-col justify-center items-center">
             <CardCompact title="Edit Ticket"
-                         content={<TicketUpdateForm ticket={ticket}/> }
+                         content={<TicketUpsertForm ticket={ticket}/> }
                          description="Edit an existing ticket"/>
         </div>
     )

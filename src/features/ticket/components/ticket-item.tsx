@@ -26,7 +26,6 @@ const TicketItem = ({ticket, isDetail}: TicketProps) => {
         </Button>
     )
 
-    // @ts-ignore
     const editButton = (
         <Button variant="ghost" size="icon" asChild>
             <Link prefetch href={ticketEditPath(ticket.id)}>
