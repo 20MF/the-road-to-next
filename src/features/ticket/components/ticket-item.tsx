@@ -10,6 +10,7 @@ import {clsx} from "clsx";
 import {getTickets} from "@/features/ticket/queries/get-tickets";
 import {getTicket} from "@/features/ticket/queries/get-ticket";
 import {deleteTicket} from "@/features/ticket/actions/delete-ticket";
+import {isNotNull} from "effect/Predicate";
 
 type TicketProps = {
     ticket:
