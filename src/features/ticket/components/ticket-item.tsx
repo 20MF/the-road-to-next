@@ -2,15 +2,14 @@
 
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import Link from "next/link";
-import {ticketPath} from "@/paths";
+import {ticketEditPath, ticketPath} from "@/paths";
 import {TICKET_ICONS} from "@/features/constants";
-import {LucideSquareArrowOutUpRight, LucideTrash} from "lucide-react";
+import {LucideSquareArrowOutUpRight, LucideTrash, LucidePencil} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {clsx} from "clsx";
 import {getTickets} from "@/features/ticket/queries/get-tickets";
 import {getTicket} from "@/features/ticket/queries/get-ticket";
 import {deleteTicket} from "@/features/ticket/actions/delete-ticket";
-import {isNotNull} from "effect/Predicate";
 
 type TicketProps = {
     ticket:
@@ -27,10 +26,19 @@ const TicketItem = ({ticket, isDetail}: TicketProps) => {
         </Button>
     )
 
+    // @ts-ignore
+    const editButton = (
+        <Button variant="ghost" size="icon" asChild>
+            <Link prefetch href={ticketEditPath(ticket.id)}>
+                <LucidePencil className="h-4 w-4"/>
+            </Link>
+        </Button>
+    )
+
     const deleteButton = (
         // 去掉onclic事件,通过form的action属性,bind第二参数,就能把客户端编译,移到服务器端
         <form action={deleteTicket.bind(null, ticket.id)}>
-            <Button variant="outline" size="icon">
+            <Button variant="ghost" size="icon">
                 <LucideTrash className="h-4 w-4"/>
             </Button>
         </form>
@@ -55,7 +63,17 @@ const TicketItem = ({ticket, isDetail}: TicketProps) => {
                 </CardContent>
             </Card>
             <div className="flex flex-col gap-x-1">
-                {isDetail ? deleteButton : detailButton}
+                {isDetail ? (
+                    <>
+                        {editButton}
+                        {deleteButton}
+                    </>
+                ) : (
+                    <>
+                        {editButton}
+                        {detailButton}
+                    </>
+                )}
             </div>
         </div>
     )

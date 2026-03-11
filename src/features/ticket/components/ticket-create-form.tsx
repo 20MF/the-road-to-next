@@ -16,7 +16,6 @@ const TicketCreateForm = () => {
 
                 <Button type="submit">Create</Button>
             </form>
-
     )
 }
 
