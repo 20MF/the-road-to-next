@@ -3,6 +3,7 @@
 import {prisma} from "@/lib/prisma";
 import {redirect} from "next/navigation";
 import {ticketsPath} from "@/paths";
+import {revalidatePath} from "next/cache";
 
 const deleteTicket = async (id: string) => {
     await prisma.ticket.delete({
@@ -10,6 +11,9 @@ const deleteTicket = async (id: string) => {
             id
         }
     })
+
+    //方法3、按需验证缓存,当需要跳转前,先验证
+    revalidatePath(ticketsPath())
     redirect(ticketsPath())
 }
 
