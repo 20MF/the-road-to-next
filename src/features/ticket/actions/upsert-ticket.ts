@@ -6,7 +6,13 @@ import {ticketPath, ticketsPath} from "@/paths";
 import {redirect} from "next/navigation";
 
 // 在form中id作为第一个参数传入,此处直接引用,formData作为第二参数
-const UpsertTicket = async (id: string, formData: FormData) => {
+
+// useActionState 的函数被调用时，
+// 会多传入一个代表 state 的上一个值或初始值的参数作为该函数的第一个参数
+// 就是此处的_actionSatate
+const UpsertTicket = async (id: string,
+                            _actionState: { message: string },
+                            formData: FormData) => {
     const data = {
         title: formData.get("title") as string,
         content: formData.get("content") as string
@@ -23,5 +29,7 @@ const UpsertTicket = async (id: string, formData: FormData) => {
     if (id) {
         redirect(ticketPath(id))
     }
+
+    return {message: "Ticket created"}
 }
 export {UpsertTicket}
