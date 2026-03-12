@@ -5,6 +5,7 @@ import {revalidatePath} from "next/cache";
 import {ticketPath, ticketsPath} from "@/paths";
 import {redirect} from "next/navigation";
 import {z} from "zod";
+import {FromErrorToAction} from "@/components/form/utlis/to-action-state";
 
 // 验证form传入的字段
 const upsertTicketSchema = z.object({
@@ -36,10 +37,7 @@ const UpsertTicket = async (id: string,
             create: data
         })
     } catch (error) {
-        return {
-            message: "Something went wrong",
-            payload: formData
-        }
+        return FromErrorToAction(error, formData)
     }
 
     revalidatePath(ticketsPath())
@@ -47,6 +45,6 @@ const UpsertTicket = async (id: string,
         redirect(ticketPath(id))
     }
 
-    return {message: "Ticket created"}
+    return {message: "Ticket created", fieldErrors: {}}
 }
 export {UpsertTicket}

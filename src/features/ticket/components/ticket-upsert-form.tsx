@@ -7,6 +7,7 @@ import {Ticket} from "@/generated/prisma/client";
 import {UpsertTicket} from "@/features/ticket/actions/upsert-ticket";
 import {useActionState} from "react";
 import {SubmitButton} from "@/components/form/submit-button";
+import {FieldError} from "@/components/form/field-error";
 
 type TicketUpdateFormProps = {
     ticket?: Ticket
@@ -14,9 +15,10 @@ type TicketUpdateFormProps = {
 
 const TicketUpsertForm = ({ticket}: TicketUpdateFormProps) => {
     const [actionState, action] = useActionState(
-        UpsertTicket.bind(null, ticket?.id),
+        UpsertTicket.bind(null, ticket?.id as string),
         {
-            message: ''
+            message: '',
+            fieldErrors: {}
         }
     )
     return (
@@ -26,9 +28,12 @@ const TicketUpsertForm = ({ticket}: TicketUpdateFormProps) => {
             <Input id="title" name="title" type="text"
                    defaultValue={(actionState.payload?.get("title") as string) ?? ticket?.title}/>
 
+            <FieldError actionState={actionState} name="title"/>
+
             <Label htmlFor={"content"}>Content</Label>
             <Textarea id="content" name="content"
                       defaultValue={(actionState.payload?.get("content") as string) ?? ticket?.content}/>
+            <FieldError actionState={actionState} name="content"/>
 
             <SubmitButton label={ticket ? "Edit" : "Create"}/>
 
