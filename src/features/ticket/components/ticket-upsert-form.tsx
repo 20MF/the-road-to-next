@@ -8,23 +8,17 @@ import {Ticket} from "@/generated/prisma/client";
 import {UpsertTicket} from "@/features/ticket/actions/upsert-ticket";
 import {useTransition} from "react";
 import {LucideLoaderCircle} from "lucide-react";
+import {SubmitButton} from "@/components/form/submit-button";
 
 type TicketUpdateFormProps = {
     ticket?: Ticket
 }
 
 const TicketUpsertForm = ({ticket}: TicketUpdateFormProps) => {
-    const [isPending, startTransition] = useTransition()
-
-    const upsertTicketAction = (formData: FormData) => {
-        startTransition(async () => {
-            await UpsertTicket.bind(null, ticket?.id)(formData)
-        })
-    }
 
     return (
         // bind绑定额外的数据到服务器上,此处id作为第一个参数传入
-        <form action={upsertTicketAction} className="flex flex-col gap-y-2">
+        <form action={UpsertTicket.bind(null, ticket?.id)} className="flex flex-col gap-y-2">
             {/*<Input type="hidden" name="id" defaultValue={ticket.id}/>*/}
 
             <Label htmlFor={"title"}>Title</Label>
@@ -33,10 +27,7 @@ const TicketUpsertForm = ({ticket}: TicketUpdateFormProps) => {
             <Label htmlFor={"content"}>Content</Label>
             <Textarea id="content" name="content" defaultValue={ticket?.content}/>
 
-            {/*通过是否传入ticket参数来判断用edit还是create*/}
-            <Button disabled={isPending} type="submit">
-                {isPending && (<LucideLoaderCircle className="mr-2 h-4 w-4 animate-spin"/>)}
-                {ticket ? "Edit" : "Create"}</Button>
+            <SubmitButton label={ticket?"Edit":"Create"}/>
         </form>
 
     )
