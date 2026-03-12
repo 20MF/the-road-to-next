@@ -6,6 +6,7 @@ import {ticketPath, ticketsPath} from "@/paths";
 import {redirect} from "next/navigation";
 import {z} from "zod";
 
+// 验证form传入的字段
 const upsertTicketSchema = z.object({
     title: z.string().min(1).max(191),
     content: z.string().min(1)
@@ -17,7 +18,7 @@ const upsertTicketSchema = z.object({
 // 会多传入一个代表 state 的上一个值或初始值的参数作为该函数的第一个参数
 // 就是此处的_actionSatate
 const UpsertTicket = async (id: string,
-                            _actionState: { message: string },
+                            _actionState: { message: string, payload?: FormData },
                             formData: FormData) => {
 
     try {
@@ -35,7 +36,10 @@ const UpsertTicket = async (id: string,
             create: data
         })
     } catch (error) {
-        return {message: "Something went wrong"}
+        return {
+            message: "Something went wrong",
+            payload: formData
+        }
     }
 
     revalidatePath(ticketsPath())
