@@ -3,6 +3,7 @@ import "./globals.css";
 
 import {Header} from "@/components/Header";
 import {ThemeProvider} from "@/theme/theme-provider";
+import {Toaster} from "sonner";
 
 const inter = Inter({subsets: ["latin"]})
 
@@ -23,6 +24,7 @@ export default function RootLayout({
                         bg-secondary/20 flex flex-col">
                 {children}
             </main>
+            <Toaster expand/>
         </ThemeProvider>
         </body>
         </html>

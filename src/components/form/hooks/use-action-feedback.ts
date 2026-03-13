@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 import {ActionState} from "@/components/form/utlis/to-action-state";
 
 type OnArgs = {
@@ -14,7 +14,13 @@ export const useActionFeedback = (
     actionState: ActionState,
     options: UseActionFeedbackOptions
 ) => {
+    //修正渲染时副作用错误,通过比较时间戳,判断是否渲染
+    const prevTimestamp=useRef(actionState.timestamp)
+    const isUpdate=prevTimestamp.current!==actionState.timestamp
+
     useEffect(() => {
+        if (!isUpdate) return
+
         if (actionState.status == "SUCCESS") {
             options.onSuccess?.({actionState})
         }
@@ -22,5 +28,7 @@ export const useActionFeedback = (
         if (actionState.status == "ERROR") {
             options.onError?.({actionState})
         }
+
+        prevTimestamp.current=actionState.timestamp
     }, [actionState, options]);
 }
