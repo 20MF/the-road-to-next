@@ -1,7 +1,5 @@
 import {TicketItem} from "@/features/ticket/components/ticket-item";
 import {getTicket} from "@/features/ticket/queries/get-ticket";
-import {notFound} from "next/navigation";
-import NotFound from "@/app/tickets/[ticketId]/not-found";
 
 export type TicketProps = {
     params: {
