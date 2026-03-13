@@ -1,7 +1,7 @@
 import {ActionState} from "@/components/form/utlis/to-action-state";
 
 type FieldErrorProps = {
-    actionState:  ActionState,
+    actionState: ActionState,
     name: string
 }
 const FieldError = ({actionState, name}: FieldErrorProps) => {
@@ -9,7 +9,7 @@ const FieldError = ({actionState, name}: FieldErrorProps) => {
     return (
         <span className="text-xs text-red-500">
             {message}
-            </span>
+        </span>
     )
 }
 
