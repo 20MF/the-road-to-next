@@ -18,18 +18,17 @@ export default function RootLayout({
         <html suppressHydrationWarning lang="en">
         <body className={inter.className}>
         <ThemeProvider>
-            <Template key="/">
-                <Header/>
-                <main className="
+            <Header/>
+            <main className="
                 min-h-screen flex-1
                 overflow-y-auto overflow-x-hidden
                 py-24 px-8
                 bg-secondary/20
                 flex flex-col">
-                    {children}
-                </main>
-                <Toaster expand/>
-            </Template>
+                {children}
+            </main>
+            <Toaster expand/>
+            <RedirectToast/>
         </ThemeProvider>
         </body>
         </html>

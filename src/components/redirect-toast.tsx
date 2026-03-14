@@ -8,18 +8,17 @@ import {usePathname} from "next/navigation";
 export const RedirectToast = () => {
     const pathname = usePathname();
     useEffect(() => {
-        const showCookieToast = async () => {
-            const message = await getCookieByKey("toast")
-
-            // console.log(message)
-            if (message) {
-                toast.success(message)
-                deleteCookieByKey("toast")
-            }
-        }
         showCookieToast()
     }, [pathname]);
 
+    const showCookieToast = async () => {
+        const message = await getCookieByKey("toast")
+
+        if (message) {
+            toast.success(message)
+            deleteCookieByKey("toast")
+        }
+    }
     return null
 }
 
