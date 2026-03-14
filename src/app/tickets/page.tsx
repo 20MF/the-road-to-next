@@ -8,6 +8,7 @@ import {ErrorBoundary} from "react-error-boundary";
 import {Placeholder} from "@/components/placeholder";
 import {CardCompact} from "@/components/card-compact";
 import {TicketUpsertForm} from "@/features/ticket/components/ticket-upsert-form";
+import {RedirectToast} from "@/components/redirect-toast";
 
 // 方法1、强制把页面改成动态,跟着数据库变化而变化
 // export const dynamic="force-dynamic"
@@ -23,18 +24,17 @@ const TicketsPage = async () => {
 
             <CardCompact title="Create Ticket"
                          content={<TicketUpsertForm/>}
-                         className="flex-1 flex flex-col items-center max-x-[420px]
-                                    animate-fade-in-from-top border border-none"
+                         className="w-full max-w-[420px] self-center"
                          description="A new ticket will be created"
             />
-
 
             <ErrorBoundary fallback={<Placeholder label="Something went wrong!"/>}>
                 <Suspense fallback={<Spinner/>}>
                     <TicketList/>
                 </Suspense>
             </ErrorBoundary>
-
+            
+            <RedirectToast/>
         </div>
     )
 }

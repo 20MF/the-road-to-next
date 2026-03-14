@@ -6,6 +6,7 @@ import {ticketPath, ticketsPath} from "@/paths";
 import {redirect} from "next/navigation";
 import {z} from "zod";
 import {FromErrorToAction, toActionState} from "@/components/form/utlis/to-action-state";
+import {setCookieByKey} from "@/actions/cookies";
 
 // 验证form传入的字段
 const upsertTicketSchema = z.object({
@@ -40,6 +41,7 @@ const UpsertTicket = async (id: string,
 
     revalidatePath(ticketsPath())
     if (id) {
+        await setCookieByKey("toast","Ticket create")
         redirect(ticketPath(id))
     }
 
