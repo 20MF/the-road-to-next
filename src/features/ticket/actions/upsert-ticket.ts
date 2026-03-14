@@ -7,11 +7,14 @@ import {redirect} from "next/navigation";
 import {z} from "zod";
 import {FromErrorToAction, toActionState} from "@/components/form/utlis/to-action-state";
 import {setCookieByKey} from "@/actions/cookies";
+import {toCent} from "@/utils/currency";
 
 // 验证form传入的字段
 const upsertTicketSchema = z.object({
     title: z.string().min(1).max(191),
-    content: z.string().min(1)
+    content: z.string().min(1),
+    deadline: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Is required"),
+    bounty: z.coerce.number().positive(),
 })
 
 // useActionState 的函数被调用时，
@@ -23,17 +26,24 @@ const UpsertTicket = async (id: string,
 ) => {
     try {
         const data = upsertTicketSchema.parse({
-            title: formData.get("title") as string,
-            content: formData.get("content") as string
+            title: formData.get("title"),
+            content: formData.get("content"),
+            deadline: formData.get("deadline"),
+            bounty: formData.get("bounty")
         })
+
+        const dbData={
+            ...data,
+            bounty:toCent(data.bounty)
+        }
 
         // 根据传入id是否为空,来判断updata,还是create
         await prisma.ticket.upsert({
             where: {
                 id: id || "",
             },
-            update: data,
-            create: data
+            update: dbData,
+            create: dbData
         })
     } catch (error) {
         return FromErrorToAction(error, formData)
@@ -41,7 +51,7 @@ const UpsertTicket = async (id: string,
 
     revalidatePath(ticketsPath())
     if (id) {
-        await setCookieByKey("toast","Ticket create")
+        await setCookieByKey("toast", "Ticket create")
         redirect(ticketPath(id))
     }
 

@@ -10,7 +10,7 @@ import {clsx} from "clsx";
 import {getTickets} from "@/features/ticket/queries/get-tickets";
 import {getTicket} from "@/features/ticket/queries/get-ticket";
 import {deleteTicket} from "@/features/ticket/actions/delete-ticket";
-import {isNotNull} from "effect/Predicate";
+import {toCurrencyFromCent} from "@/utils/currency";
 
 type TicketProps = {
     ticket:
@@ -65,6 +65,12 @@ const TicketItem = ({
                         {ticket!.content}
                     </p>
                 </CardContent>
+                <CardFooter className="flex justify-between">
+                    <p className="text-sm text-muted-foreground">{ticket!.deadline}</p>
+                    <p className="text-sm text-muted-foreground">
+                        {toCurrencyFromCent(ticket!.bounty)}
+                    </p>
+                </CardFooter>
             </Card>
             <div className="flex flex-col gap-x-1">
                 {isDetail ? (
