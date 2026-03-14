@@ -8,7 +8,6 @@ import {ErrorBoundary} from "react-error-boundary";
 import {Placeholder} from "@/components/placeholder";
 import {CardCompact} from "@/components/card-compact";
 import {TicketUpsertForm} from "@/features/ticket/components/ticket-upsert-form";
-import {RedirectToast} from "@/components/redirect-toast";
 
 // 方法1、强制把页面改成动态,跟着数据库变化而变化
 // export const dynamic="force-dynamic"
@@ -33,8 +32,7 @@ const TicketsPage = async () => {
                     <TicketList/>
                 </Suspense>
             </ErrorBoundary>
-            
-            <RedirectToast/>
+
         </div>
     )
 }
