@@ -1,11 +1,10 @@
 "use client"
 
 import * as React from "react"
-import {ChevronDownIcon, LucideCalendar} from "lucide-react"
+import {LucideCalendar} from "lucide-react"
 
 import {Button} from "@/components/ui/button"
 import {Calendar} from "@/components/ui/calendar"
-import {Label} from "@/components/ui/label"
 import {
     Popover,
     PopoverContent,
@@ -22,14 +21,19 @@ type DatePickerProps = {
 
 export const DatePicker = ({id, name, defaultValue}: DatePickerProps) => {
 
-    // const [open, setOpen] = React.useState<Date | undefined>(defaultValue ? new Date(defaultValue) : new Date())
-    const [date, setDate] = React.useState<Date | undefined>(undefined)
+    const [open, setOpen] = React.useState(false)
+    const [date, setDate] = React.useState<Date | undefined>(defaultValue ? new Date(defaultValue) : new Date())
 
     const formattedStringDate = date ? format(date, "yyyy-MM-dd") : "";
 
+    const handleSelect = (selectDate: Date|undefined) => {
+        setDate(selectDate)
+        setOpen(false)
+    }
+
     return (
         <div className="flex flex-col gap-3">
-            <Popover>
+            <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger className="w-full" id={id} asChild>
                     <Button
                         variant="outline"
@@ -40,18 +44,16 @@ export const DatePicker = ({id, name, defaultValue}: DatePickerProps) => {
                         <Input type="hidden" name={name} value={formattedStringDate}/>
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                <PopoverContent className="w-full  p-8" align="start">
                     <Calendar
                         mode="single"
                         selected={date}
-                        captionLayout="dropdown"
-                        onSelect={(date) => {
-                            setDate(date)
-                            // setOpen(false)
-                        }}
+                        onSelect={handleSelect}
+                        className="w-full rounded-md shadow-sm"
                     />
                 </PopoverContent>
             </Popover>
         </div>
     )
 }
+

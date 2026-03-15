@@ -50,6 +50,7 @@ const TicketUpsertForm = ({ticket}: TicketUpdateFormProps) => {
                 <div className="w-1/2">
                     <Label htmlFor="deadline">Deadline</Label>
                     <DatePicker
+                        // key={actionState.timestamp}
                         id="deadline"
                         name="deadline"
                         defaultValue={
@@ -72,12 +73,9 @@ const TicketUpsertForm = ({ticket}: TicketUpdateFormProps) => {
                     <FieldError actionState={actionState} name="bounty" />
                 </div>
             </div>
-
-
             <FieldError actionState={actionState} name="content"/>
-            <SubmitButton
-                label={ticket ? "Edit" : "Create"}
-            />
+
+            <SubmitButton label={ticket ? "Edit" : "Create"}/>
         </Form>
 
     )
