@@ -3,23 +3,33 @@ import {toast} from "sonner";
 import React from "react";
 import {ActionState} from "@/components/form/utlis/to-action-state";
 
-type FormProps={
+type FormProps = {
     action: (payload: FormData) => void,
     children: React.ReactNode,
-    actionState: ActionState
+    actionState: ActionState,
+    onSuccess?: (actionState: ActionState) => void
+    onError?: (actionState: ActionState) => void
 }
 
-export const Form = ({action, children, actionState}:FormProps) => {
+export const Form = ({
+                         action,
+                         children,
+                         actionState,
+                         onSuccess,
+                         onError
+                     }: FormProps) => {
     useActionFeedback(actionState, {
         onSuccess: ({actionState}) => {
             if (actionState.message) {
                 toast.success(actionState.message)
             }
+            onSuccess?.(actionState)
         },
         onError: ({actionState}) => {
             if (actionState.message) {
                 toast.error(actionState.message)
             }
+            onError?.(actionState)
         }
     })
     return (

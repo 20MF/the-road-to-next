@@ -12,21 +12,32 @@ import {
 } from "@/components/ui/popover"
 import {format} from "date-fns";
 import {Input} from "@/components/ui/input";
+import {useImperativeHandle} from "react";
+
+export type ImperativeHandleFromDataPicker = {
+    reset: () => void
+}
 
 type DatePickerProps = {
     id: string
     name: string
+    imperativeHandleRef?: React.Ref<ImperativeHandleFromDataPicker>
     defaultValue: string | undefined
 }
 
-export const DatePicker = ({id, name, defaultValue}: DatePickerProps) => {
+export const DatePicker = ({id, name, defaultValue, imperativeHandleRef}: DatePickerProps) => {
 
     const [open, setOpen] = React.useState(false)
     const [date, setDate] = React.useState<Date | undefined>(defaultValue ? new Date(defaultValue) : new Date())
 
+
+    useImperativeHandle(imperativeHandleRef, () => ({
+        reset: () => setDate(new Date()),
+    }));
+
     const formattedStringDate = date ? format(date, "yyyy-MM-dd") : "";
 
-    const handleSelect = (selectDate: Date|undefined) => {
+    const handleSelect = (selectDate: Date | undefined) => {
         setDate(selectDate)
         setOpen(false)
     }
