@@ -4,13 +4,14 @@ import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components
 import Link from "next/link";
 import {ticketEditPath, ticketPath} from "@/paths";
 import {TICKET_ICONS} from "@/features/constants";
-import {LucideSquareArrowOutUpRight, LucideTrash, LucidePencil} from "lucide-react";
+import {LucideSquareArrowOutUpRight, LucideTrash, LucidePencil, LucideEllipsisVertical} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {clsx} from "clsx";
 import {getTickets} from "@/features/ticket/queries/get-tickets";
 import {getTicket} from "@/features/ticket/queries/get-ticket";
 import {deleteTicket} from "@/features/ticket/actions/delete-ticket";
 import {toCurrencyFromCent} from "@/utils/currency";
+import {TicketMoreMenu} from "@/features/ticket/components/ticket-more-menu";
 
 type TicketProps = {
     ticket:
@@ -47,6 +48,16 @@ const TicketItem = ({
             </Button>
         </form>
     )
+
+    const moreMenu = <TicketMoreMenu
+        ticket={ticket}
+        trigger={
+            <Button variant="outline" size="icon">
+                <LucideEllipsisVertical className="w-4 h-4"/>
+            </Button>
+        }
+    />
+
     return (
         /*clsx 能通过函数引入判断条件,修改样式*/
         <div className={clsx("w-full  flex gap-x-1 ", {
@@ -77,6 +88,7 @@ const TicketItem = ({
                     <>
                         {editButton}
                         {deleteButton}
+                        {moreMenu}
                     </>
                 ) : (
                     <>

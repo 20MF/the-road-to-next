@@ -7,3 +7,9 @@ export const TICKET_ICONS = {
     DONE: <LucideFileCheck/>,
     IN_PROGRESS: <LucidePencil/>
 }
+
+export const TICKET_ICONS_LABELS = {
+    OPEN: "Open",
+    DONE: "Done",
+    IN_PROGRESS: "In_progress"
+}

@@ -17,7 +17,7 @@ export const EMPTY_ACTION_STATE: ActionState = {
 //处理返回值,两条路径
 //此处是处理失败
 export const FromErrorToAction = (error: unknown,
-                           formData: FormData,
+                           formData?: FormData,
 ): ActionState => {
     if (error instanceof ZodError) {
         return {
