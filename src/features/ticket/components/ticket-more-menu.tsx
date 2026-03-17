@@ -23,7 +23,15 @@ export const TicketMoreMenu = ({ticket, trigger}: TicketMoreMenuProps) => {
     )
 
     const handleUpateTicketStatus = async (value: string) => {
-        const result = await updateTicketStatus(ticket.id, value as TicketStatus)
+        //等候结果
+        const promise = updateTicketStatus(ticket.id, value as TicketStatus)
+
+        toast.promise(promise, {
+            loading: "update status...."
+        })
+
+        //出现结果
+        const result = await promise
 
         if (result.status === 'ERROR') {
             toast.error(result.message)
