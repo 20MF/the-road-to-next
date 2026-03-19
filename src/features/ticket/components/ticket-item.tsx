@@ -41,20 +41,18 @@ const TicketItem = ({
         </Button>
     )
 
-    const deleteButton =(
-        <ConfirmDialog/>
-    )
 
-    // const deleteButton = (
-    //     <ConfirmDialog
-    //         action={deleteTicket.bind(null, ticket.id)}
-    //         trigger={
-    //             <Button variant="outline" size="icon">
-    //                 <LucideTrash className="h-4 w-4"/>
-    //             </Button>
-    //         }
-    //     />
-    // );
+
+    const deleteButton = (
+        <ConfirmDialog
+            action={deleteTicket.bind(null, ticket!.id)}
+            trigger={
+                <Button variant="outline" size="icon">
+                    <LucideTrash className="h-4 w-4"/>
+                </Button>
+            }
+        />
+    );
     // const deleteButton = (
     //     // 去掉onclic事件,通过form的action属性,bind第二参数,就能把客户端编译,移到服务器端
     //     <form action={deleteTicket.bind(null, ticket!.id)}>
