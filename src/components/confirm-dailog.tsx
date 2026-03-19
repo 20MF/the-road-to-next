@@ -2,46 +2,50 @@ import {ActionState} from "@/components/form/utlis/to-action-state";
 import {Button} from "@/components/ui/button";
 
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel,
+    AlertDialog,  AlertDialogCancel,
     AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
+import {cloneElement, useState} from "react";
 
-type  ConfirmDialogProps = {
+type  useConfirmDialogProps = {
     title?: string,
     description?: string,
     action: () => Promise<ActionState>,
     trigger: React.ReactElement
 }
 
-const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
-const ConfirmDialog = ({
+const useConfirmDialog = ({
                            title = "Are you absolutely sure?",
                            description = "This action cannot be undone. Make sure you understand the consequences.",
                            action,
                            trigger,
-                       }: ConfirmDialogProps) => {
+                       }: useConfirmDialogProps) => {
+    const [isOpen, setIsOpen] = useState(false);
 
-return (
-    <AlertDialog>
-        <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
-        <AlertDialogContent>
-            <AlertDialogHeader>
-                <AlertDialogTitle>{title}</AlertDialogTitle>
-                <AlertDialogDescription>{description}</AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                {/*<AlertDialogAction asChild>*/}
+    const dialogTrigger= cloneElement(trigger,{
+        onClick: () => setIsOpen(state => !state)
+    })
+    const dialog=(
+        <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+            <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>{title}</AlertDialogTitle>
+                    <AlertDialogDescription>{description}</AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <form action={action}>
                         <Button type="submit">Confirm</Button>
                     </form>
-                {/*</AlertDialogAction>*/}
-            </AlertDialogFooter>
-        </AlertDialogContent>
-    </AlertDialog>
-)
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+    )
+
+return [dialogTrigger,dialog]
 }
-export {ConfirmDialog}
+export {useConfirmDialog}

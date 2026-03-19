@@ -9,18 +9,26 @@ import {LucideTrash} from "lucide-react";
 import {TICKET_ICONS_LABELS} from "@/features/constants";
 import {updateTicketStatus} from "@/features/ticket/actions/update-ticket-status";
 import {toast} from "sonner";
+import {useConfirmDialog} from "@/components/confirm-dailog";
+import {deleteTicket} from "@/features/ticket/actions/delete-ticket";
 
 type TicketMoreMenuProps = {
     ticket: Ticket,
     trigger: React.ReactElement
 }
 export const TicketMoreMenu = ({ticket, trigger}: TicketMoreMenuProps) => {
-    const deleteButton = (
-        <DropdownMenuItem>
-            <LucideTrash className="mr-2 w-4 h-4"/>
-            <span>Delete</span>
-        </DropdownMenuItem>
+    const [deleteButton, deleteDialog] = useConfirmDialog(
+        {
+            action: deleteTicket.bind(null, ticket!.id),
+            trigger: (
+                <DropdownMenuItem>
+                    <LucideTrash className="mr-2 w-4 h-4"/>
+                    <span>Delete</span>
+                </DropdownMenuItem>
+            )
+        }
     )
+
 
     const handleUpateTicketStatus = async (value: string) => {
         //等候期
@@ -55,10 +63,9 @@ export const TicketMoreMenu = ({ticket, trigger}: TicketMoreMenuProps) => {
     return (
         <>
             <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    {trigger}
-                </DropdownMenuTrigger>
+                <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" side="right">
+                    {deleteDialog}
                     {ticketStatusDropdownMenuRadioGroup}
                     <DropdownMenuSeparator/>
                     {deleteButton}
