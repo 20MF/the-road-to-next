@@ -23,14 +23,14 @@ export const TicketMoreMenu = ({ticket, trigger}: TicketMoreMenuProps) => {
     )
 
     const handleUpateTicketStatus = async (value: string) => {
-        //等候结果
+        //等候期
         const promise = updateTicketStatus(ticket.id, value as TicketStatus)
 
         toast.promise(promise, {
             loading: "update status...."
         })
 
-        //出现结果
+        //出现结果后,加载消息提示框消失
         const result = await promise
 
         if (result.status === 'ERROR') {
