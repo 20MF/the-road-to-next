@@ -34,11 +34,11 @@ return (
             </AlertDialogHeader>
             <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction asChild>
+                {/*<AlertDialogAction asChild>*/}
                     <form action={action}>
                         <Button type="submit">Confirm</Button>
                     </form>
-                </AlertDialogAction>
+                {/*</AlertDialogAction>*/}
             </AlertDialogFooter>
         </AlertDialogContent>
     </AlertDialog>
