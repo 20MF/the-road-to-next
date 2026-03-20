@@ -1,3 +1,4 @@
+"use client"
 import {Ticket, TicketStatus} from "@/generated/prisma/client";
 import {
     DropdownMenu,
@@ -11,6 +12,11 @@ import {updateTicketStatus} from "@/features/ticket/actions/update-ticket-status
 import {toast} from "sonner";
 import {useConfirmDialog} from "@/components/confirm-dailog";
 import {deleteTicket} from "@/features/ticket/actions/delete-ticket";
+
+import {useState} from "react";
+import {Field, FieldGroup, FieldLabel} from "@/components/ui/field";
+import {Input} from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
 
 type TicketMoreMenuProps = {
     ticket: Ticket,
@@ -62,15 +68,22 @@ export const TicketMoreMenu = ({ticket, trigger}: TicketMoreMenuProps) => {
 
     return (
         <>
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" side="right">
-                    {deleteDialog}
-                    {ticketStatusDropdownMenuRadioGroup}
+                    <DropdownMenuItem>
+                        {ticketStatusDropdownMenuRadioGroup}
+                    </DropdownMenuItem>
                     <DropdownMenuSeparator/>
-                    {deleteButton}
+                    <DropdownMenuItem >
+                       {deleteButton}
+                    </DropdownMenuItem>
+
+
+
                 </DropdownMenuContent>
             </DropdownMenu>
+            {deleteDialog}
         </>
     )
 }
