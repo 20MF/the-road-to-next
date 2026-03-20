@@ -35,7 +35,6 @@ export const TicketMoreMenu = ({ticket, trigger}: TicketMoreMenuProps) => {
         }
     )
 
-
     const handleUpateTicketStatus = async (value: string) => {
         //等候期
         const promise = updateTicketStatus(ticket.id, value as TicketStatus)
@@ -78,9 +77,6 @@ export const TicketMoreMenu = ({ticket, trigger}: TicketMoreMenuProps) => {
                     <DropdownMenuItem >
                        {deleteButton}
                     </DropdownMenuItem>
-
-
-
                 </DropdownMenuContent>
             </DropdownMenu>
             {deleteDialog}

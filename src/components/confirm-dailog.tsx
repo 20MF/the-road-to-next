@@ -1,4 +1,4 @@
-import {ActionState} from "@/components/form/utlis/to-action-state";
+import {ActionState, EMPTY_ACTION_STATE} from "@/components/form/utlis/to-action-state";
 import {Button} from "@/components/ui/button";
 
 import {
@@ -8,7 +8,9 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
-import {cloneElement, useState} from "react";
+import {cloneElement, useActionState, useState} from "react";
+import {Form} from "@/components/form/form";
+import {SubmitButton} from "@/components/form/submit-button";
 
 type  useConfirmDialogProps = {
     title?: string,
@@ -25,6 +27,12 @@ const useConfirmDialog = ({
                           }: useConfirmDialogProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
+    const [actionState, formAction] = useActionState(action,EMPTY_ACTION_STATE)
+
+    const handleSuccess = () => {
+        setIsOpen(false)
+    }
+
     //当触发器被抽出后,不能在原AlertDialog中使用AlertDialogTrigger
     const dialogTrigger = cloneElement(trigger, {
         onClick: () => setIsOpen(state => !state)
@@ -39,9 +47,11 @@ const useConfirmDialog = ({
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <form action={action}>
-                            <Button type="submit">Confirm</Button>
-                        </form>
+                        <Form action={formAction}
+                              actionState={actionState}
+                              onSuccess={handleSuccess}>
+                            <SubmitButton label="Confirm" />
+                        </Form>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
