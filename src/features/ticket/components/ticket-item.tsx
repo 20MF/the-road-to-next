@@ -4,7 +4,7 @@ import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components
 import Link from "next/link";
 import {ticketEditPath, ticketPath} from "@/paths";
 import {TICKET_ICONS} from "@/features/constants";
-import {LucideSquareArrowOutUpRight, LucideTrash, LucidePencil, LucideEllipsisVertical} from "lucide-react";
+import {LucideSquareArrowOutUpRight, LucidePencil, LucideEllipsisVertical} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {clsx} from "clsx";
 import {getTickets} from "@/features/ticket/queries/get-tickets";

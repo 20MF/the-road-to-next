@@ -12,14 +12,13 @@ import {updateTicketStatus} from "@/features/ticket/actions/update-ticket-status
 import {toast} from "sonner";
 import {useConfirmDialog} from "@/components/confirm-dailog";
 import {deleteTicket} from "@/features/ticket/actions/delete-ticket";
-
-import {useState} from "react";
-import {Field, FieldGroup, FieldLabel} from "@/components/ui/field";
-import {Input} from "@/components/ui/input";
-import {Button} from "@/components/ui/button";
+import {getTickets} from "@/features/ticket/queries/get-tickets";
+import {getTicket} from "@/features/ticket/queries/get-ticket";
 
 type TicketMoreMenuProps = {
-    ticket: Ticket,
+    // ticket: Ticket,
+    ticket:| Awaited<ReturnType<typeof getTickets>>[number]
+        | Awaited<ReturnType<typeof getTicket>>,
     trigger: React.ReactElement
 }
 export const TicketMoreMenu = ({ticket, trigger}: TicketMoreMenuProps) => {
@@ -37,7 +36,7 @@ export const TicketMoreMenu = ({ticket, trigger}: TicketMoreMenuProps) => {
 
     const handleUpateTicketStatus = async (value: string) => {
         //等候期
-        const promise = updateTicketStatus(ticket.id, value as TicketStatus)
+        const promise = updateTicketStatus(ticket!.id, value as TicketStatus)
 
         toast.promise(promise, {
             loading: "update status...."
@@ -55,7 +54,7 @@ export const TicketMoreMenu = ({ticket, trigger}: TicketMoreMenuProps) => {
 
     const ticketStatusDropdownMenuRadioGroup = (
         <DropdownMenuRadioGroup
-            value={ticket.status}
+            value={ticket!.status}
             onValueChange={handleUpateTicketStatus}>
             {(Object.keys(TICKET_ICONS_LABELS) as Array<TicketStatus>).map(key => (
                 <DropdownMenuRadioItem value={key} key={key}>
