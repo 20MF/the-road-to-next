@@ -19,6 +19,7 @@ export const EMPTY_ACTION_STATE: ActionState = {
 export const FromErrorToAction = (error: unknown,
                            formData?: FormData,
 ): ActionState => {
+    //第一类错误,页面输入错误
     if (error instanceof ZodError) {
         return {
             status: "ERROR",
@@ -27,6 +28,7 @@ export const FromErrorToAction = (error: unknown,
             payload: formData,
             timestamp: Date.now()
         }
+        //第二类错误数据库操作错误
     } else if (error instanceof Error) {
         return {
             status: "ERROR",
@@ -36,6 +38,7 @@ export const FromErrorToAction = (error: unknown,
             timestamp: Date.now()
         }
     } else {
+        //第三类其他错误
         return {
             status: "ERROR",
             message: "An Unknown error occured",
@@ -49,12 +52,14 @@ export const FromErrorToAction = (error: unknown,
 //此处是处理成功
 export const toActionState = (
     status: ActionState["status"],
-    message: string
+    message: string,
+    formData?: FormData,
 ): ActionState => {
     return {
         status,
         message,
         fieldErrors: {},
+        payload: formData,
         timestamp: Date.now()
     }
 }

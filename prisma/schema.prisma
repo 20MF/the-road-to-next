@@ -19,19 +19,24 @@ model Ticket {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  email String @unique
-  role  Role   @default(USER)
+  id           String    @id @default(cuid())
+  username     String    @unique
+  email        String    @unique
+  passwordHash String
+  seesions     Session[]
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 enum TicketStatus {
   OPEN
   IN_PROGRESS
   DONE
-}
-
-enum Role {
-  USER
-  ADMIN
-  GUEST
 }
