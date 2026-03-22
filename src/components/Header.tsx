@@ -1,8 +1,10 @@
 import Link from "next/link";
 import {ticketsPath, homePath, signUpPath, signInPath} from "@/paths";
 import {Button, buttonVariants} from "@/components/ui/button";
-import {LucideKanban} from "lucide-react";
+import {LucideLogOut, LucideKanban} from "lucide-react";
 import {ThemeSwitch} from "@/theme/theme-switch";
+import {SignOut} from "@/features/auth/actions/sign-out";
+import {SubmitButton} from "@/components/form/submit-button";
 
 const Header = () => {
     const navItem = (
@@ -18,6 +20,9 @@ const Header = () => {
             <Link href={signInPath()} className={buttonVariants({variant: "outline"})}>
                 Sign In
             </Link>
+            <form action={SignOut}>
+                <SubmitButton label="Sign Out" icon={<LucideLogOut />}/>
+            </form>
         </>
     )
     return (
