@@ -7,6 +7,7 @@ import {EMPTY_ACTION_STATE} from "@/components/form/utlis/to-action-state";
 import {signUp} from "@/features/auth/actions/sign-up";
 import {FieldError} from "@/components/form/field-error";
 
+//完善字段验证功能
 const SignUpForm = () => {
     const [actionState, action] = useActionState(signUp, EMPTY_ACTION_STATE)
     return (
