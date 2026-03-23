@@ -16,6 +16,10 @@ model Ticket {
   status    TicketStatus @default(OPEN)
   deadline  String
   bounty    Int
+  userId    String
+  user      User         @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 model User {
@@ -24,6 +28,7 @@ model User {
   email        String    @unique
   passwordHash String
   seesions     Session[]
+  tickets      Ticket[]
 }
 
 model Session {
