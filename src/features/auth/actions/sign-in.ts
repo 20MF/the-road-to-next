@@ -6,6 +6,8 @@ import {redirect} from "next/navigation";
 import {ticketsPath} from "@/paths";
 import {prisma} from "@/lib/prisma";
 import {verify} from "@node-rs/argon2";
+import {lucia} from "@/lib/lucia";
+import {cookies} from "next/headers";
 
 const signInSchema = z
     .object({
@@ -38,12 +40,19 @@ const SignIn = async (_actionState: ActionState, formData: FormData) => {
             return toActionState("ERROR", "Invalid password", formData)
         }
 
+        const session = await lucia.createSession(user.id, {});
+        const sessionCookie = lucia.createSessionCookie(session.id);
+
+        (await cookies()).set(
+            sessionCookie.name,
+            sessionCookie.value,
+            sessionCookie.attributes
+        );
+
     } catch (error) {
         return FromErrorToAction(error,formData)
     }
     redirect(ticketsPath())
-    // return toActionState("SUCCESS", "Sign in successful.")
-
 }
 
 export {SignIn}

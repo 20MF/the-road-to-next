@@ -15,7 +15,7 @@ type SubmitButtonProps = {
         | "secondary"
         | "ghost"
         | "link";
-    size?: "default" | "sm" | "lg" | "icon";
+    size?: "default" | "sm" | "lg" | "icon"
 }
 
 const SubmitButton = ({label, icon, variant = "default", size = "default"}: SubmitButtonProps) => {
@@ -31,7 +31,8 @@ const SubmitButton = ({label, icon, variant = "default", size = "default"}: Subm
             {label}
             {pending ? null : icon ? (
                 <span className={clsx({"ml-2": !!label,})}>
-                {cloneElement(icon, {className: "w-4 h-4",})}
+                {cloneElement(icon,
+                     {className: "w-4 h-4",})}
         </span>
             ) : null}
         </Button>

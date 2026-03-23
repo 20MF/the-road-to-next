@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link";
 import {ticketsPath, homePath, signUpPath, signInPath} from "@/paths";
 import {Button, buttonVariants} from "@/components/ui/button";
@@ -5,24 +7,41 @@ import {LucideLogOut, LucideKanban} from "lucide-react";
 import {ThemeSwitch} from "@/theme/theme-switch";
 import {SignOut} from "@/features/auth/actions/sign-out";
 import {SubmitButton} from "@/components/form/submit-button";
+import {getAuth} from "@/features/auth/queries/get-auth";
+import {useEffect, useState} from "react";
+import {User as AuthUser} from "lucia";
 
 const Header = () => {
-    const navItem = (
+    const [user, setUser] = useState<AuthUser | null>(null);
+
+    //技巧,通过use client,使用钩子,使页面保持静态,而不是在函数使用asyn await,调用get-auth
+    useEffect(() => {
+        fetchUser()
+    }, []);
+
+    const fetchUser = async () => {
+        const {user} = await getAuth()
+        setUser(user)
+    }
+
+    const navItem = user ? (
         <>
             <Link href={ticketsPath()} className={buttonVariants({variant: "default"})}>
                 Tickets
             </Link>
-
+            <form action={SignOut}>
+                <SubmitButton label="Sign Out" icon={<LucideLogOut/>}/>
+            </form>
+        </>
+    ) : (
+        <>
             <Link href={signUpPath()} className={buttonVariants({variant: "outline"})}>
                 Sign Up
             </Link>
 
-            <Link href={signInPath()} className={buttonVariants({variant: "outline"})}>
+            <Link href={signInPath()} className={buttonVariants({variant: "default"})}>
                 Sign In
             </Link>
-            <form action={SignOut}>
-                <SubmitButton label="Sign Out" icon={<LucideLogOut />}/>
-            </form>
         </>
     )
     return (

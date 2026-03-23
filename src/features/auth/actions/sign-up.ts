@@ -7,6 +7,8 @@ import {prisma} from "@/lib/prisma";
 import {lucia} from "@/lib/lucia";
 import {cookies} from "next/headers";
 import {Prisma} from "../../../../generated/prisma/client";
+import {redirect} from "next/navigation";
+import {signInPath, ticketsPath} from "@/paths";
 
 
 const signUpSchema = z
@@ -26,19 +28,6 @@ const signUpSchema = z
             })
         }
     })
-
-export const createAuthSession = async (userId: string) => {
-    // 创建新的会话（第二个参数是配置项）
-    const session = await lucia.createSession(userId, {});
-    // 创建会话cookie
-    const sessionCookie = lucia.createSessionCookie(session.id);
-    // 设置cookie
-    cookies().set(
-        sessionCookie.name, // cookie名称
-        sessionCookie.value, // cookie值
-        sessionCookie.attributes // cookie属性
-    );
-};
 
 const signUp = async (_actionState: ActionState, formData: FormData) => {
     try {
@@ -62,7 +51,16 @@ const signUp = async (_actionState: ActionState, formData: FormData) => {
             }
         })
 
-        createAuthSession(user.id)
+        const session = await lucia.createSession(user.id, {});
+        const sessionCookie = lucia.createSessionCookie(session.id);
+
+        (await cookies()).set(
+            sessionCookie.name,
+            sessionCookie.value,
+            sessionCookie.attributes
+        );
+        //不能通过函数引用,建立会话
+        // createAuthSession(user.id)
 
 
     } catch (error) {
@@ -76,10 +74,9 @@ const signUp = async (_actionState: ActionState, formData: FormData) => {
                 formData
             );
         }
-        return FromErrorToAction(error,formData)
+        return FromErrorToAction(error, formData)
     }
-
-    return toActionState("SUCCESS", "Sign up suceessful.", formData)
+    redirect(ticketsPath())
 }
 
 export {signUp}

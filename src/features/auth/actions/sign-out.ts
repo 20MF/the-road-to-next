@@ -8,6 +8,7 @@ import {cookies} from "next/headers";
 
 const SignOut = async () => {
     const {session} = await getAuth()
+    const cookieStore =await cookies()
 
     if (!session) {
         redirect(signInPath())
@@ -19,7 +20,7 @@ const SignOut = async () => {
     //创建一个空白会话
     const sessionCookie = lucia.createBlankSessionCookie()
 
-    cookies().set(
+    cookieStore.set(
         sessionCookie.name,
         sessionCookie.value,
         sessionCookie.attributes
