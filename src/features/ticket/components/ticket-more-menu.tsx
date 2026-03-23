@@ -16,9 +16,9 @@ import {getTickets} from "@/features/ticket/queries/get-tickets";
 import {getTicket} from "@/features/ticket/queries/get-ticket";
 
 type TicketMoreMenuProps = {
-    // ticket: Ticket,
-    ticket:| Awaited<ReturnType<typeof getTickets>>[number]
-        | Awaited<ReturnType<typeof getTicket>>,
+    ticket: Ticket,
+    // ticket:| Awaited<ReturnType<typeof getTickets>>[number]
+    //     | Awaited<ReturnType<typeof getTicket>>,
     trigger: React.ReactElement
 }
 export const TicketMoreMenu = ({ticket, trigger}: TicketMoreMenuProps) => {

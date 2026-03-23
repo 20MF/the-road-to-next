@@ -2,12 +2,13 @@
 
 import {prisma} from "@/lib/prisma";
 import {revalidatePath} from "next/cache";
-import {ticketPath, ticketsPath} from "@/paths";
+import {signInPath, ticketPath, ticketsPath} from "@/paths";
 import {redirect} from "next/navigation";
 import {z} from "zod";
 import {FromErrorToAction, toActionState} from "@/components/form/utlis/to-action-state";
 import {setCookieByKey} from "@/actions/cookies";
 import {toCent} from "@/utils/currency";
+import {useAuth} from "@/features/auth/hooks/use-auth";
 
 // 验证form传入的字段
 const upsertTicketSchema = z.object({
@@ -24,6 +25,11 @@ const UpsertTicket = async (id: string,
                             _actionState: { message: string, payload?: FormData },
                             formData: FormData
 ) => {
+    const {user} = useAuth()
+    if (!user) {
+        redirect(signInPath())
+    }
+
     try {
         const data = upsertTicketSchema.parse({
             title: formData.get("title"),
@@ -32,9 +38,10 @@ const UpsertTicket = async (id: string,
             bounty: formData.get("bounty")
         })
 
-        const dbData={
+        const dbData = {
             ...data,
-            bounty:toCent(data.bounty)
+            userId: user.id,
+            bounty: toCent(data.bounty)
         }
 
         // 根据传入id是否为空,来判断updata,还是create

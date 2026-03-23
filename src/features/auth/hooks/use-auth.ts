@@ -1,3 +1,4 @@
+"use client"
 import {useEffect, useState} from "react";
 import {User as AuthUser} from "lucia/dist/core";
 import {usePathname} from "next/navigation";
@@ -8,8 +9,6 @@ const useAuth = () => {
     const [isFetch, setIsFetch] = useState(false);
 
     const pathName = usePathname()
-
-
 
     useEffect(() => {
         const fetchUser = async () => {

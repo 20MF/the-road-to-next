@@ -7,15 +7,19 @@ import {TICKET_ICONS} from "@/features/constants";
 import {LucideSquareArrowOutUpRight, LucidePencil, LucideEllipsisVertical} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {clsx} from "clsx";
-import {getTickets} from "@/features/ticket/queries/get-tickets";
-import {getTicket} from "@/features/ticket/queries/get-ticket";
+
 import {toCurrencyFromCent} from "@/utils/currency";
 import {TicketMoreMenu} from "@/features/ticket/components/ticket-more-menu";
+import {Prisma} from "../../../generated/prisma/client";
 
 type TicketProps = {
-    ticket:
-        | Awaited<ReturnType<typeof getTickets>>[number]
-        | Awaited<ReturnType<typeof getTicket>>
+    //70行 ticket调用user.username, 官方的解决办法
+    ticket: Prisma.TicketGetPayload<{ include: { user: true } }>
+
+    //70行 ticket调用user.username, 普通解决办法
+    // ticket:Ticket &{
+    //     user:User
+    // }
     isDetail: boolean
 }
 const TicketItem = ({
@@ -67,7 +71,9 @@ const TicketItem = ({
                     </p>
                 </CardContent>
                 <CardFooter className="flex justify-between">
-                    <p className="text-sm text-muted-foreground">{ticket!.deadline}</p>
+                    <p className="text-sm text-muted-foreground">
+                        {ticket!.deadline} by {ticket.user.username}
+                    </p>
                     <p className="text-sm text-muted-foreground">
                         {toCurrencyFromCent(ticket!.bounty)}
                     </p>
