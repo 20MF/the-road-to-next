@@ -1,9 +1,11 @@
 "use server"
+
 import {cookies} from "next/headers";
 import {lucia} from "@/lib/lucia";
+import {cache} from "react";
 
 // 获取会话
-const getAuth = async () => {
+const getAuth = cache(async () => {
     const cookiesStore = await cookies()
     const sessionId = cookiesStore.get(lucia.sessionCookieName)?.value ?? null
 
@@ -40,6 +42,6 @@ const getAuth = async () => {
     }
 
     return result
-}
+})
 
 export {getAuth}

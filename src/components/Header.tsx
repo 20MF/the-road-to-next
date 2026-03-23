@@ -7,21 +7,13 @@ import {LucideLogOut, LucideKanban} from "lucide-react";
 import {ThemeSwitch} from "@/theme/theme-switch";
 import {SignOut} from "@/features/auth/actions/sign-out";
 import {SubmitButton} from "@/components/form/submit-button";
-import {getAuth} from "@/features/auth/queries/get-auth";
-import {useEffect, useState} from "react";
-import {User as AuthUser} from "lucia";
+import {useAuth} from "@/features/auth/hooks/use-auth";
 
 const Header = () => {
-    const [user, setUser] = useState<AuthUser | null>(null);
+    const {user,isFetch} =useAuth()
 
-    //技巧,通过use client,使用钩子,使页面保持静态,而不是在函数使用asyn await,调用get-auth
-    useEffect(() => {
-        fetchUser()
-    }, []);
-
-    const fetchUser = async () => {
-        const {user} = await getAuth()
-        setUser(user)
+    if (!isFetch){
+        return null
     }
 
     const navItem = user ? (
