@@ -2,14 +2,14 @@
 
 import {prisma} from "@/lib/prisma";
 import {revalidatePath} from "next/cache";
-import {signInPath, ticketPath, ticketsPath} from "@/paths";
+import {ticketPath, ticketsPath} from "@/paths";
 import {redirect} from "next/navigation";
 import {z} from "zod";
 import {FromErrorToAction, toActionState} from "@/components/form/utlis/to-action-state";
 import {setCookieByKey} from "@/actions/cookies";
 import {toCent} from "@/utils/currency";
-import {useAuth} from "@/features/auth/hooks/use-auth";
 import {getAuthOrRedirect} from "@/features/auth/queries/get-auth-or-redirect";
+import {isOwner} from "@/features/auth/utils/is-owner";
 
 // 验证form传入的字段
 const upsertTicketSchema = z.object({
@@ -27,12 +27,21 @@ const UpsertTicket = async (id: string,
                             formData: FormData
 ) => {
     // const {user} = useAuth()
-    const {user} =await getAuthOrRedirect()
-    if (!user) {
-        redirect(signInPath())
-    }
+    const {user} = await getAuthOrRedirect()
 
     try {
+        if (id) {
+            const ticket = await prisma.ticket.findUnique({
+                where: {
+                    id
+                }
+            })
+
+            if (!ticket || !isOwner(user, ticket)) {
+                return toActionState("ERROR", "Not authorized.")
+            }
+        }
+
         const data = upsertTicketSchema.parse({
             title: formData.get("title"),
             content: formData.get("content"),
@@ -42,7 +51,7 @@ const UpsertTicket = async (id: string,
 
         const dbData = {
             ...data,
-            userId: user.id,
+            userId: user!.id,
             bounty: toCent(data.bounty)
         }
 
