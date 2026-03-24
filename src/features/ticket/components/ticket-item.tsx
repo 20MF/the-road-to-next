@@ -10,12 +10,12 @@ import {clsx} from "clsx";
 
 import {toCurrencyFromCent} from "@/utils/currency";
 import {TicketMoreMenu} from "@/features/ticket/components/ticket-more-menu";
-import {Prisma} from "../../../generated/prisma/client";
+import {TicketWithMetadata} from "@/features/ticket/types";
 
 type TicketProps = {
     //70行 ticket调用user.username, 官方的解决办法
-    ticket: Prisma.TicketGetPayload<{ include: { user: true } }>
-
+    // ticket: Prisma.TicketGetPayload<{ include: { user: true } }>
+    ticket: TicketWithMetadata
     //70行 ticket调用user.username, 普通解决办法
     // ticket:Ticket &{
     //     user:User
