@@ -9,6 +9,7 @@ import {FromErrorToAction, toActionState} from "@/components/form/utlis/to-actio
 import {setCookieByKey} from "@/actions/cookies";
 import {toCent} from "@/utils/currency";
 import {useAuth} from "@/features/auth/hooks/use-auth";
+import {getAuthOrRedirect} from "@/features/auth/queries/get-auth-or-redirect";
 
 // 验证form传入的字段
 const upsertTicketSchema = z.object({
@@ -25,7 +26,8 @@ const UpsertTicket = async (id: string,
                             _actionState: { message: string, payload?: FormData },
                             formData: FormData
 ) => {
-    const {user} = useAuth()
+    // const {user} = useAuth()
+    const {user} =await getAuthOrRedirect()
     if (!user) {
         redirect(signInPath())
     }
