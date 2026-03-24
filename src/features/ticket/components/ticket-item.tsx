@@ -11,6 +11,7 @@ import {clsx} from "clsx";
 import {toCurrencyFromCent} from "@/utils/currency";
 import {TicketMoreMenu} from "@/features/ticket/components/ticket-more-menu";
 import {TicketWithMetadata} from "@/features/ticket/types";
+import {Prisma} from "../../../../generated/prisma/client";
 
 type TicketProps = {
     //70行 ticket调用user.username, 官方的解决办法
