@@ -1,5 +1,3 @@
-"use client"
-
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import Link from "next/link";
 import {ticketEditPath, ticketPath} from "@/paths";
@@ -7,27 +5,21 @@ import {TICKET_ICONS} from "@/features/constants";
 import {LucideSquareArrowOutUpRight, LucidePencil, LucideEllipsisVertical} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {clsx} from "clsx";
-
 import {toCurrencyFromCent} from "@/utils/currency";
 import {TicketMoreMenu} from "@/features/ticket/components/ticket-more-menu";
 import {TicketWithMetadata} from "@/features/ticket/types";
-import {Prisma} from "../../../../generated/prisma/client";
+import {getAuth} from "@/features/auth/queries/get-auth";
+import {isOwner} from "@/features/auth/utils/is-owner";
 
 type TicketProps = {
-    //70行 ticket调用user.username, 官方的解决办法
-    // ticket: Prisma.TicketGetPayload<{ include: { user: true } }>
     ticket: TicketWithMetadata
-    //70行 ticket调用user.username, 普通解决办法
-    // ticket:Ticket &{
-    //     user:User
-    // }
     isDetail: boolean
 }
-const TicketItem = ({
-                        ticket,
-                        isDetail
-                    }: TicketProps
+const TicketItem = async ({ticket, isDetail}: TicketProps
 ) => {
+    const {user} = await getAuth()
+    const isTicketOwner = isOwner(user, ticket)
+
     const detailButton = (
         <Button variant="outline" size="icon" asChild>
             <Link prefetch href={ticketPath(ticket!.id)}>
@@ -36,22 +28,22 @@ const TicketItem = ({
         </Button>
     )
 
-    const editButton = (
+    const editButton = isTicketOwner ? (
         <Button variant="outline" size="icon" asChild>
             <Link prefetch href={ticketEditPath(ticket!.id)}>
                 <LucidePencil className="h-4 w-4"/>
             </Link>
         </Button>
-    )
+    ) : null
 
-    const moreMenu = <TicketMoreMenu
+    const moreMenu = isTicketOwner ? (<TicketMoreMenu
         ticket={ticket}
         trigger={
             <Button variant="outline" size="icon">
                 <LucideEllipsisVertical className="w-4 h-4"/>
             </Button>
         }
-    />
+    />) : null
 
     return (
         /*clsx 能通过函数引入判断条件,修改样式*/
