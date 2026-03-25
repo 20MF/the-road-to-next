@@ -8,6 +8,7 @@ import {ErrorBoundary} from "react-error-boundary";
 import {Placeholder} from "@/components/placeholder";
 import {CardCompact} from "@/components/card-compact";
 import {TicketUpsertForm} from "@/features/ticket/components/ticket-upsert-form";
+import {getAuth} from "@/features/auth/queries/get-auth";
 
 // 方法1、强制把页面改成动态,跟着数据库变化而变化
 // export const dynamic="force-dynamic"
@@ -17,6 +18,8 @@ import {TicketUpsertForm} from "@/features/ticket/components/ticket-upsert-form"
 
 // 只有在服务器端组件中才能通过异步操作直接获取数据,客户端组件不能如此操作
 const TicketsPage = async () => {
+    const {user} =await getAuth()
+
     return (
         <div className="flex-1 flex flex-col gap-y-8">
             <Heading title="Tickets" description="All your tickets at one place"/>
@@ -28,8 +31,9 @@ const TicketsPage = async () => {
             />
 
             <ErrorBoundary fallback={<Placeholder label="Something went wrong!"/>}>
+                {/*//显示部分票据*/}
                 <Suspense fallback={<Spinner/>}>
-                    <TicketList/>
+                    <TicketList userId={user?.id}/>
                 </Suspense>
             </ErrorBoundary>
 

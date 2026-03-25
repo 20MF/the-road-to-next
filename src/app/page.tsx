@@ -1,18 +1,23 @@
 import Link from "next/link";
 import {ticketsPath} from "@/paths";
 import Heading from "@/components/heading";
+import {Suspense} from "react";
+import {Spinner} from "@/app/tickets/[ticketId]/spinner";
+import {TicketList} from "@/features/ticket/components/ticket-list";
 
 
 export default function Home() {
     return (
         <div className="flex flex-1 flex-col gap-y-8">
-            <Heading title="Home" description="Your home place to start"/>
+            <Heading title="All Tickets"
+                     description="Tickets by everyone at one place"/>
 
-            <div className="flex-1 flex flex-col items-center">
-                <Link className="underline" href={ticketsPath()}>
-                    Goto Tickets
-                </Link>
-            </div>
+            {/*//显示所有票据*/}
+            <Suspense fallback={<Spinner/>}>
+                <TicketList/>
+            </Suspense>
+
+
         </div>
     );
 }

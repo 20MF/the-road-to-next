@@ -1,16 +1,29 @@
-import {Inter, Geist } from "next/font/google";
 import "./globals.css";
 
 import {Header} from "@/components/Header";
 import {ThemeProvider} from "@/theme/theme-provider";
 import {Toaster} from "sonner";
 import {RedirectToast} from "@/components/redirect-toast";
-import Template from "@/app/template";
-import { cn } from "@/lib/utils";
+import {Metadata} from "next";
+import localFont from "next/font/local";
+import {Sidebar} from "@/components/sidebar/components/sidebar";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
-const inter = Inter({subsets: ["latin"]})
+const geistSans = localFont({
+    src: "./fonts/GeistVF.woff",
+    variable: "--fonts-geist-sans",
+    weight: "100 900",
+});
+const geistMono = localFont({
+    src: "./fonts/GeistMonoVF.woff",
+    variable: "--fonts-geist-mono",
+    weight: "100 900",
+});
+
+export const metadata: Metadata = {
+    title: "The Road to Next",
+    description: "My Road to Next application ...",
+};
 
 export default function RootLayout({
                                        children,
@@ -18,10 +31,12 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html suppressHydrationWarning lang="en" className={cn("font-sans", geist.variable)}>
-        <body className={inter.className}>
+        <html suppressHydrationWarning lang="en">
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider>
             <Header/>
+            <div className="flex h-screen overflow-hidden border-collapse">
+                <Sidebar/>
             <main className="
                 min-h-screen flex-1
                 overflow-y-auto overflow-x-hidden
@@ -30,6 +45,7 @@ export default function RootLayout({
                 flex flex-col">
                 {children}
             </main>
+            </div>
             <Toaster expand/>
             <RedirectToast/>
         </ThemeProvider>
