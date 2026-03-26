@@ -2,7 +2,7 @@ import Link from "next/link";
 import {ticketsPath} from "@/paths";
 import Heading from "@/components/heading";
 import {Suspense} from "react";
-import {Spinner} from "@/app/tickets/[ticketId]/spinner";
+import {Spinner} from "@/app/(authenticated)/tickets/[ticketId]/spinner";
 import {TicketList} from "@/features/ticket/components/ticket-list";
 
 
