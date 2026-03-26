@@ -1,28 +1,25 @@
 import {NavItem} from "@/components/sidebar/types";
-import {homePath, ticketsPath} from "@/paths";
-import {LucideBook,LucideLibrary} from "lucide-react";
+import {accountProfilePath, homePath, ticketsPath} from "@/paths";
+import {LucideCircleUser, LucideBook, LucideLibrary} from "lucide-react";
 
 export const navItems: NavItem[] = [
     {
         title: "All Tickets",
-        icon: <LucideLibrary />,
+        icon: <LucideLibrary/>,
         href: homePath()
     },
     {
         title: "My Tickets",
-        icon: <LucideBook />,
+        icon: <LucideBook/>,
         href: ticketsPath()
+    },
+    {
+        separator: true,
+        title: "Account",
+        icon: <LucideCircleUser/>,
+        href: accountProfilePath()
     }
 ]
 
 export const closedClassName =
-    "text-background " +
-    "opacity-0 " +
-    "transition-all " +
-    "duration-300 " +
-    "group-hover:z-40 " +
-    "group-hover:ml-4 " +
-    "group-hover:rounded " +
-    "group-hover:bg-foreground " +
-    "group-hover:p-2 " +
-    "group-hover:opacity-100";
+    "text-background opacity-0 transition-all duration-300 group-hover:z-40 group-hover:ml-4 group-hover:rounded group-hover:bg-foreground group-hover:p-2 group-hover:opacity-100"

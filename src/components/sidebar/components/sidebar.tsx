@@ -4,20 +4,29 @@ import {cn} from "@/lib/utils";
 import {navItems} from "@/components/sidebar/constants";
 import {SidebarItem} from "@/components/sidebar/components/sidebar-item";
 import {useAuth} from "@/features/auth/hooks/use-auth";
+import {usePathname} from "next/navigation";
+import {getActivePath} from "@/utils/get-active-path";
+import {signInPath, signUpPath} from "@/paths";
 
 const Sidebar = () => {
     const [isTransition, setIsTransition] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
-    const {user,isFetch} =useAuth()
+    const {user, isFetch} = useAuth()
+    const pathName = usePathname()
+
+    const {activeIndex} = getActivePath(
+        pathName,
+        navItems.map((navItem) => navItem.href),
+        [signInPath(), signUpPath()])
 
     const handleToggle = (open: boolean) => {
-        setIsTransition(true)
-        setIsOpen(true)
+        setIsTransition(open)
+        setIsOpen(open)
         setTimeout(() => setIsTransition(false), 200)
     }
 
-    if (!user ||!isFetch){
+    if (!user || !isFetch) {
         return <div className="w-[78px] bg-secondary/20"/>
     }
 
@@ -33,8 +42,12 @@ const Sidebar = () => {
         >
             <div className="px-3 py-2">
                 <nav className="space-y--2">
-                    {navItems.map(navItem => (
-                        <SidebarItem isOpen={isOpen} navItem={navItem} key={navItem.title}/>
+                    {navItems.map((navItem, index) => (
+                        <SidebarItem isOpen={isOpen}
+                                     navItem={navItem}
+                                     key={navItem.title}
+                                     isActive={activeIndex === index}
+                        />
                     ))}
                 </nav>
             </div>

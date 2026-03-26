@@ -8,6 +8,7 @@ import {ThemeSwitch} from "@/theme/theme-switch";
 import {SignOut} from "@/features/auth/actions/sign-out";
 import {SubmitButton} from "@/components/form/submit-button";
 import {useAuth} from "@/features/auth/hooks/use-auth";
+import {AccountDropdown} from "@/components/account-dropdown";
 
 const Header = () => {
     const {user,isFetch} =useAuth()
@@ -21,9 +22,10 @@ const Header = () => {
             <Link href={ticketsPath()} className={buttonVariants({variant: "default"})}>
                 Tickets
             </Link>
-            <form action={SignOut}>
-                <SubmitButton label="Sign Out" icon={<LucideLogOut/>}/>
-            </form>
+            {/*<form action={SignOut}>*/}
+            {/*    <SubmitButton label="Sign Out" icon={<LucideLogOut/>}/>*/}
+            {/*</form>*/}
+            <AccountDropdown user={user}/>
         </>
     ) : (
         <>
