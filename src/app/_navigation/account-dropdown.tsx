@@ -3,17 +3,15 @@ import {
     DropdownMenu,
     DropdownMenuContent, DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent,
+    DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {Avatar, AvatarFallback} from "@/components/ui/avatar";
 import Link from "next/link";
-import {accountPasswordPath, accountProfilePath, signInPath} from "@/paths";
+import {accountPasswordPath, accountProfilePath} from "@/paths";
 import {LucideLock, LucideLogOut, LucideUser} from "lucide-react";
 import {SignOut} from "@/features/auth/actions/sign-out";
-import {SubmitButton} from "@/components/form/submit-button";
-import {MenuSub} from "@radix-ui/react-menu";
-import {DropdownNav} from "react-day-picker";
+
 
 type AccountDropdownProps = {
     user: AuthUser

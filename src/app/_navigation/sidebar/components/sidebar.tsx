@@ -1,8 +1,8 @@
 "use client"
 import {useState} from "react";
 import {cn} from "@/lib/utils";
-import {navItems} from "@/components/sidebar/constants";
-import {SidebarItem} from "@/components/sidebar/components/sidebar-item";
+import {navItems} from "@/app/_navigation/sidebar/constants";
+import {SidebarItem} from "@/app/_navigation/sidebar/components/sidebar-item";
 import {useAuth} from "@/features/auth/hooks/use-auth";
 import {usePathname} from "next/navigation";
 import {getActivePath} from "@/utils/get-active-path";

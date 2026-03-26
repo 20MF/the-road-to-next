@@ -3,8 +3,8 @@ import Link from "next/link";
 import {usePathname} from "next/navigation";
 import {buttonVariants} from "@/components/ui/button";
 import {cn} from "@/lib/utils";
-import {NavItem} from "@/components/sidebar/types";
-import {closedClassName} from "@/components/sidebar/constants";
+import {NavItem} from "@/app/_navigation/sidebar/types";
+import {closedClassName} from "@/app/_navigation/sidebar/constants";
 import {cloneElement} from "react";
 import {Separator} from "@/components/ui/separator";
 

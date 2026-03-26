@@ -8,7 +8,7 @@ import {ThemeSwitch} from "@/theme/theme-switch";
 import {SignOut} from "@/features/auth/actions/sign-out";
 import {SubmitButton} from "@/components/form/submit-button";
 import {useAuth} from "@/features/auth/hooks/use-auth";
-import {AccountDropdown} from "@/components/account-dropdown";
+import {AccountDropdown} from "@/app/_navigation/account-dropdown";
 
 const Header = () => {
     const {user,isFetch} =useAuth()
