@@ -26,9 +26,11 @@ const TicketEditPage = async ({params}: TicketEditPageProps) => {
     return (
         <>
             <div className="flex flex-1 flex-col gap-8">
+
                 <Breadcrumbs breadcrumbs={[
                     {title: "Tickets", href: homePath()},
                     {title: ticket.title, href: ticketPath(ticket.id)},
+                    // 面包屑结构的最后一项是只有名称,没有路径
                     {title: "Edit"}
                 ]}/>
             </div>
