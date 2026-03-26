@@ -3,14 +3,17 @@ import {
     DropdownMenu,
     DropdownMenuContent, DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuSeparator,
+    DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {Avatar, AvatarFallback} from "@/components/ui/avatar";
 import Link from "next/link";
-import {accountPasswordPath, accountProfilePath} from "@/paths";
+import {accountPasswordPath, accountProfilePath, signInPath} from "@/paths";
 import {LucideLock, LucideLogOut, LucideUser} from "lucide-react";
 import {SignOut} from "@/features/auth/actions/sign-out";
+import {SubmitButton} from "@/components/form/submit-button";
+import {MenuSub} from "@radix-ui/react-menu";
+import {DropdownNav} from "react-day-picker";
 
 type AccountDropdownProps = {
     user: AuthUser
@@ -40,12 +43,14 @@ const AccountDropdown = ({user}: AccountDropdownProps) => {
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator/>
-                <DropdownMenuItem asChild>
-                    <form action={SignOut}>
-                        <LucideLogOut className="mr-2 h-4 w-4"/>
-                        <button type="submit"> Sign Out</button>
-                    </form>
-                </DropdownMenuItem>
+                {/*DropdownMenuItem不能触发button */}
+                <form action={SignOut}>
+                    <span className="flex flex-1 justify-start">
+                        <LucideLogOut className="ml-2 mr-3 h-4 w-4"/>
+                    <button type="submit" className="text-sm"> Sign Out</button>
+                    </span>
+
+                </form>
             </DropdownMenuContent>
         </DropdownMenu>
     )
