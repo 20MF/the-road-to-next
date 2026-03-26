@@ -16,7 +16,7 @@ const SidebarItem = ({isOpen, navItem}: SidebarItemProps) => {
     const path = usePathname()
 
     const isActive = path === navItem.href
-
+    const className="h-5 w-5"
     return (
         <Link href={navItem.href}
               className={cn(
@@ -28,6 +28,8 @@ const SidebarItem = ({isOpen, navItem}: SidebarItemProps) => {
             {cloneElement(navItem.icon, {
                 className: "h-5 w-5",
             })}
+
+            {/**/}
             <span
                 className={cn(
                     "absolute left-12 text-base duration-200",
