@@ -9,6 +9,7 @@ import {Placeholder} from "@/components/placeholder";
 import {CardCompact} from "@/components/card-compact";
 import {TicketUpsertForm} from "@/features/ticket/components/ticket-upsert-form";
 import {getAuth} from "@/features/auth/queries/get-auth";
+import {SearchParams} from "@/features/ticket/search-params";
 
 // 方法1、强制把页面改成动态,跟着数据库变化而变化
 // export const dynamic="force-dynamic"
@@ -17,7 +18,11 @@ import {getAuth} from "@/features/auth/queries/get-auth";
 // export const revalidate = 30     //增量静态
 
 // 只有在服务器端组件中才能通过异步操作直接获取数据,客户端组件不能如此操作
-const TicketsPage = async () => {
+type TicketPageProps={
+    searchParams:Promise<SearchParams>
+}
+
+const TicketsPage = async ({searchParams}:TicketPageProps) => {
     const {user} =await getAuth()
 
     return (
@@ -33,7 +38,7 @@ const TicketsPage = async () => {
             <ErrorBoundary fallback={<Placeholder label="Something went wrong!"/>}>
                 {/*//显示部分票据*/}
                 <Suspense fallback={<Spinner/>}>
-                    <TicketList userId={user?.id}/>
+                    <TicketList userId={user?.id} searchParams={await searchParams}/>
                 </Suspense>
             </ErrorBoundary>
 
