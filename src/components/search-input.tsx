@@ -2,17 +2,15 @@
 import {Input} from "@/components/ui/input";
 import React from "react";
 import {usePathname, useSearchParams, useRouter} from "next/navigation";
-import { useDebouncedCallback} from "use-debounce";
+import {useDebouncedCallback} from "use-debounce";
 
 export type SearchInputProps = {
     placeholder: string
 }
 
-/*
- 1、获取初始查询状态字符串,赋值给URLSearchParams
- 2、通过event事件,replace不断替换路由地址
- 3、replace会传递给useSearchParams更新URL地址栏
- */
+/* 1、获取初始查询状态字符串,赋值给URLSearchParams
+    2、通过event事件,replace不断替换路由地址
+ 3、replace会传递给useSearchParams更新URL地址栏*/
 
 const SearchInput = ({placeholder}: SearchInputProps) => {
     //获取URL当前查询值,管理URL地址栏状态更新
@@ -34,7 +32,6 @@ const SearchInput = ({placeholder}: SearchInputProps) => {
             params.delete("search")
         }
 
-        // console.log("path:", `${pathName}?${params.toString()}`)
         //会影响useSearchParams更新URL
         replace(`${pathName}?${params.toString()}`, {
             scroll: false
