@@ -21,12 +21,12 @@ const SortSelect = ({defaultValue, options}: SortSelectProps) => {
     const handleSort = (value: string) => {
         const params = new URLSearchParams(searchParams)
 
-        if (value===defaultValue) {
+        if (value === defaultValue) {
 
             params.delete("sort")
         } else if (value) {
             params.set("sort", value)
-        }else {
+        } else {
             params.delete("sort")
         }
 
@@ -37,8 +37,8 @@ const SortSelect = ({defaultValue, options}: SortSelectProps) => {
     return (
         <Select
             onValueChange={handleSort}
-            defaultValue={searchParams.get("sort")?.toString()||defaultValue}
-            >
+            defaultValue={searchParams.get("sort")?.toString() || defaultValue}
+        >
             <SelectTrigger>
                 <SelectValue/>
             </SelectTrigger>

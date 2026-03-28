@@ -11,13 +11,17 @@ import {TicketUpsertForm} from "@/features/ticket/components/ticket-upsert-form"
 import {getAuth} from "@/features/auth/queries/get-auth";
 import {SearchParams} from "@/features/ticket/search-params";
 
-// 方法1、强制把页面改成动态,跟着数据库变化而变化
-// export const dynamic="force-dynamic"
-
-// 方法2、页面依然是静态页面,通过设置缓存验证刷新时间,来同步静态页面和数据库数据
-// export const revalidate = 30     //增量静态
-
-// 只有在服务器端组件中才能通过异步操作直接获取数据,客户端组件不能如此操作
+/*
+* 查询、排序流程说明
+* 第一次渲染
+* 1、TicketPage、TicketList组件,作为服务器组件传送给客户端
+* 2、客户端渲染服务器端传来代码
+* 3、当执行查询功能、或者排序功能时,useSearchParam钩子会更新replace传入的查询字符串
+* 第二次渲染
+* 4、TicketPage组件searchParams参数,会接收useSerchParam更新
+* 5、向数据库发送查询请求
+* 6、传回数据,再次渲染页面
+* */
 type TicketPageProps={
     searchParams:Promise<SearchParams>
 }
