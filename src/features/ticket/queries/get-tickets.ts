@@ -1,22 +1,21 @@
 import {prisma} from "@/lib/prisma";
-import {StringFilter} from "../../../../generated/prisma/commonInputTypes";
 import {ParsedSearchParams} from "@/features/ticket/search-params";
+import {StringFilter} from "../../../../generated/prisma/commonInputTypes";
 
-export const getTickets = async (userId: string | StringFilter<"Ticket"> | undefined,
-                                 searchParams: ParsedSearchParams) => {
+export const getTickets = async (
+    userId: string |StringFilter<"Ticket">| undefined,
+    searchParams: ParsedSearchParams) => {
 
     return await prisma.ticket.findMany({
-        orderBy: {
-            // ...(searchParams.sort === "newest" && {createdAt: "desc"}),
-            // ...(searchParams.sort === "bounty" && {bounty: "desc"})
-            [searchParams.sortKey]: searchParams.sortValue
-        },
         where: {
             userId,
             title: {
                 contains: searchParams.search,
                 mode: "insensitive"
             }
+        },
+        orderBy: {
+            [searchParams.sortKey]: searchParams.sortValue
         },
         include: {
             user: {

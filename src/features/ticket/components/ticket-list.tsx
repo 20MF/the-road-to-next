@@ -26,7 +26,8 @@ const TicketList = async ({userId, searchParams}: TicketListProps) => {
                 <SearchInput placeholder={"Search tickets ..."}/>
                 <SortSelect
                     options={[
-                        {sortKey: "createAt", sortValue: "desc", label: "Newest",},
+                        {sortKey: "createdAt", sortValue: "desc", label: "Newest",},
+                        {sortKey: "createdAt", sortValue: "asc", label: "Oldest",},
                         {sortKey: "bounty", sortValue: "desc", label: "Bounty",}
                     ]}
                 />
