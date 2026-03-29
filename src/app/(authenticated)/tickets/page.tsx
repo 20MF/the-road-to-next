@@ -9,7 +9,8 @@ import {Placeholder} from "@/components/placeholder";
 import {CardCompact} from "@/components/card-compact";
 import {TicketUpsertForm} from "@/features/ticket/components/ticket-upsert-form";
 import {getAuth} from "@/features/auth/queries/get-auth";
-import {SearchParams} from "@/features/ticket/search-params";
+import { searchParamsCache} from "@/features/ticket/search-params";
+import {SearchParams} from "nuqs";
 
 /*
 * 查询、排序流程说明
@@ -42,7 +43,8 @@ const TicketsPage = async ({searchParams}:TicketPageProps) => {
             <ErrorBoundary fallback={<Placeholder label="Something went wrong!"/>}>
                 {/*//显示部分票据*/}
                 <Suspense fallback={<Spinner/>}>
-                    <TicketList userId={user?.id} searchParams={await searchParams}/>
+                    <TicketList userId={user?.id}
+                                searchParams={searchParamsCache.parse(await searchParams)}/>
                 </Suspense>
             </ErrorBoundary>
 

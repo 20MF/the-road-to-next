@@ -4,7 +4,8 @@ import Heading from "@/components/heading";
 import {Suspense} from "react";
 import {Spinner} from "@/app/(authenticated)/tickets/[ticketId]/spinner";
 import {TicketList} from "@/features/ticket/components/ticket-list";
-import {SearchParams} from "@/features/ticket/search-params";
+import {searchParamsCache} from "@/features/ticket/search-params";
+import {SearchParams} from "nuqs/server";
 
 type HomeProps = {
     searchParams: Promise<SearchParams>
@@ -17,7 +18,7 @@ const HomePage = async ({searchParams}: HomeProps) => (
 
         {/*//显示所有票据*/}
         <Suspense fallback={<Spinner/>}>
-            <TicketList searchParams={await searchParams}/>
+            <TicketList searchParams={searchParamsCache.parse(await searchParams)}/>
         </Suspense>
 
 
