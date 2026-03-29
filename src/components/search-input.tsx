@@ -2,7 +2,7 @@
 import {Input} from "@/components/ui/input";
 import React from "react";
 import {useDebouncedCallback} from "use-debounce";
-import {useQueryState} from "nuqs";
+import {useQueryState, useQueryStates} from "nuqs";
 import {searchParser} from "@/features/ticket/search-params";
 
 export type SearchInputProps = {

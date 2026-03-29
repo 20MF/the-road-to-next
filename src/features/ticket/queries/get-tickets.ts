@@ -7,8 +7,9 @@ export const getTickets = async (userId: string | StringFilter<"Ticket"> | undef
 
     return await prisma.ticket.findMany({
         orderBy: {
-            ...(searchParams.sort === "newest" && {createdAt: "desc"}),
-            ...(searchParams.sort === "bounty" && {bounty: "desc"})
+            // ...(searchParams.sort === "newest" && {createdAt: "desc"}),
+            // ...(searchParams.sort === "bounty" && {bounty: "desc"})
+            [searchParams.sortKey]: searchParams.sortValue
         },
         where: {
             userId,

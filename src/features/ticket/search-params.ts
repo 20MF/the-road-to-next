@@ -11,14 +11,20 @@ export const searchParser = parseAsString.withDefault("").withOptions({
     //检测当前值是否是默认值
     clearOnDefault: true
 })
-export const sortParser = parseAsString.withDefault("newest").withOptions({
+export const sortOption = {
     shallow: false,
     clearOnDefault: true
-})
+}
+
+export const sortParser = {
+    sortKey: parseAsString.withDefault("createdAt"),
+    sortValue: parseAsString.withDefault("desc")
+}
+
 
 export const searchParamsCache = createSearchParamsCache({
     search: searchParser,
-    sort: sortParser
+    ...sortParser
 })
 
 export type ParsedSearchParams = Awaited<typeof searchParamsCache.parse>
