@@ -1,7 +1,10 @@
 "use client"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {useQueryState, useQueryStates} from "nuqs";
-import {sortOption, sortParser} from "@/features/ticket/search-params";
+
+type SortObject = {
+    sortKey: string
+    sortValue: string
+}
 
 type Option = {
     label: string
@@ -11,22 +14,16 @@ type Option = {
 
 type SortSelectProps = {
     options: Option[]
+    value: SortObject
+    onChange: (sort: SortObject) => void
 }
 
-const SortSelect = ({options}: SortSelectProps) => {
-
-    /**
-     * useQueryStates 通过将多个状态更新合并为一次，实现了更高效的渲染
-     * 管理多个参数时：优先使用 useQueryStates，以获得更好的性能。
-     * 仅管理单个参数时：使用 useQueryState 更加简洁方便
-     */
-
-    const [sort, setSort] = useQueryStates(sortParser, sortOption)
+const SortSelect = ({options, value, onChange}: SortSelectProps) => {
 
     const handleSort = (compositeKey: string) => {
         const [sortKey, sortValue] = compositeKey.split("_")
 
-        setSort({
+        onChange({
             sortKey,
             sortValue
         })
@@ -34,7 +31,7 @@ const SortSelect = ({options}: SortSelectProps) => {
     return (
         <Select
             onValueChange={handleSort}
-            defaultValue={sort.sortKey + "_" + sort.sortValue}
+            defaultValue={value.sortKey + "_" + value.sortValue}
         >
             <SelectTrigger>
                 <SelectValue/>
