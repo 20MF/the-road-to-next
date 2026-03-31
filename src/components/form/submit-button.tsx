@@ -22,7 +22,8 @@ const SubmitButton = ({label, icon, variant = "default", size = "default"}: Subm
     const {pending} = useFormStatus()
     return (
         <Button disabled={pending} type="submit" variant={variant} size={size}>
-            {pending && (<LucideLoaderCircle
+            {pending && (
+                <LucideLoaderCircle
                     className={clsx("mr-2 h-4 w-4 animate-spin", {
                             "mr-2": !!label
                         }
@@ -31,9 +32,10 @@ const SubmitButton = ({label, icon, variant = "default", size = "default"}: Subm
             {label}
             {pending ? null : icon ? (
                 <span className={clsx({"ml-2": !!label,})}>
-                {cloneElement(icon,
-                     {className: "w-4 h-4",})}
-        </span>
+                {cloneElement(icon, {
+                        className: "w-4 h-4",
+                    })}
+                </span>
             ) : null}
         </Button>
     )

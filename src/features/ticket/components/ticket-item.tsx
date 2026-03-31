@@ -88,8 +88,8 @@ const TicketItem = async ({ticket, isDetail}: TicketProps
                         </>
                     )}
                 </div>
-                {isDetail ? <Comments ticketId={ticket.id}/> : null}
             </div>
+            {isDetail ? <Comments ticketId={ticket.id}/> : null}
         </div>
     )
 }
