@@ -4,7 +4,8 @@ import {StringFilter} from "../../../../generated/prisma/commonInputTypes";
 
 export const getTickets = async (
     userId: string | StringFilter<"Ticket"> | undefined,
-    searchParams: ParsedSearchParams) => {
+    searchParams: ParsedSearchParams
+) => {
 
     const where = {
         userId,
@@ -20,8 +21,8 @@ export const getTickets = async (
     const [tickets, count] = await prisma.$transaction([
         prisma.ticket.findMany({
             where,
-            // skip,
-            // take,
+            skip,
+            take,
             orderBy: {
                 [searchParams.sortKey]: searchParams.sortValue
             },
