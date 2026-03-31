@@ -24,19 +24,20 @@ export const getTickets = async (
             skip,
             take,
             orderBy: {
-                [searchParams.sortKey]: searchParams.sortValue
+                [searchParams.sortKey]: searchParams.sortValue,
             },
             include: {
                 user: {
-                    select: {username: true}
-                }
-            }
+                    select: {
+                        username: true,
+                    },
+                },
+            },
         }),
-
         prisma.ticket.count({
-            where
-        })
-    ])
+            where,
+        }),
+    ]);
 
     return {
         list: tickets,
