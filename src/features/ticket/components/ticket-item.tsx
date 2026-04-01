@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import Link from "next/link";
 import {ticketEditPath, ticketPath} from "@/paths";

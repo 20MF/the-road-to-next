@@ -18,7 +18,7 @@ export const CommentItem = ({comment, buttons}: CommentItemProps) => {
                         {comment.isOwner ? "You" : comment.user?.username ?? "Delete User"}
                     </p>
                     <p className="text-sm text-muted-foregroundt">
-                        {format(comment.createdAt,"yyyy-mm-dd,HH:mm")}
+                        {format(comment.createdAt, "yyyy-mm-dd HH:mm")}
                     </p>
                     <p className="whitespace-pre-line">
                         {comment.content}

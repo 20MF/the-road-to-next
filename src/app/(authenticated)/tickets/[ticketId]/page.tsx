@@ -20,7 +20,7 @@ const TicketPage = async ({params}: TicketProps) => {
     const ticketPromise = getTicket(ticketId)
     const commentsPromise = getComments(ticketId)
 
-    const [ticket, comments] = await Promise.all([ticketPromise, commentsPromise])
+    const [ticket, paginatedComments] = await Promise.all([ticketPromise, commentsPromise])
 
     if (!ticket) {
         return notFound()
@@ -37,7 +37,8 @@ const TicketPage = async ({params}: TicketProps) => {
             <div className="flex justify-center animate-fade-from-top">
                 <TicketItem ticket={ticket}
                             isDetail
-                            comments={<Comments ticketId={ticket.id} comments={comments}/>}/>
+                            comments={<Comments ticketId={ticket.id}
+                                                paginatedComments={paginatedComments}/>}/>
             </div>
         </>
     )
