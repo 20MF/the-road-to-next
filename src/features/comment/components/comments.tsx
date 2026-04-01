@@ -8,7 +8,7 @@ type CommentProps = {
     ticketId: string
     comments?: CommentWithMetadata[]
 }
-export const Comments = async ({ticketId, comments = []}: CommentProps) => {
+export const Comments =  ({ticketId, comments = []}: CommentProps) => {
 
     return (
         <>

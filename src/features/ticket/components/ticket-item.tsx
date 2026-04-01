@@ -1,4 +1,4 @@
-// "use client"
+"use client"
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import Link from "next/link";
 import {ticketEditPath, ticketPath} from "@/paths";
@@ -31,7 +31,7 @@ type TicketProps = {
  * ** 注意事项: 当一个组件标记为use client ,那么它的子组件也必须是客户端组件,否则会报错
  */
 
-const TicketItem = async ({ticket, isDetail, comments}: TicketProps
+const TicketItem = ({ticket, isDetail, comments}: TicketProps
 ) => {
     const detailButton = (
         <Button variant="outline" size="icon" asChild>
