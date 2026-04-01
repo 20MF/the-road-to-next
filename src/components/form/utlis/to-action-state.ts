@@ -6,6 +6,7 @@ export type ActionState = {
     payload?: FormData,
     fieldErrors: Record<string, string[] | undefined>
     timestamp: number
+    data?: unknown
 }
 
 export const EMPTY_ACTION_STATE: ActionState = {
@@ -17,7 +18,7 @@ export const EMPTY_ACTION_STATE: ActionState = {
 //处理返回值,两条路径
 //此处是处理失败
 export const FromErrorToAction = (error: unknown,
-                           formData?: FormData,
+                                  formData?: FormData,
 ): ActionState => {
     //第一类错误,页面输入错误
     if (error instanceof ZodError) {
@@ -54,12 +55,14 @@ export const toActionState = (
     status: ActionState["status"],
     message: string,
     formData?: FormData,
+    data?: unknown,
 ): ActionState => {
     return {
         status,
         message,
         fieldErrors: {},
         payload: formData,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        data
     }
 }

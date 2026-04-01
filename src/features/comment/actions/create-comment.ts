@@ -10,15 +10,16 @@ const createCommentSchema = z.object({
     content: z.string().min(1).max(1024)
 })
 
- const createComment = async (ticketId: string,
-                                    _actionState: ActionState,
-                                    formData: FormData) => {
+const createComment = async (ticketId: string,
+                             _actionState: ActionState,
+                             formData: FormData) => {
     const {user} = await getAuthOrRedirect()
 
+    let comment
     try {
         const data = createCommentSchema.parse(Object.fromEntries(formData))
 
-        await prisma.comment.create({
+        comment = await prisma.comment.create({
             data: {
                 userId: user!.id,
                 ticketId: ticketId,
@@ -29,7 +30,12 @@ const createCommentSchema = z.object({
         return FromErrorToAction(error)
     }
     revalidatePath(ticketPath(ticketId))
-    return toActionState("SUCCESS", "Comment created.")
+    return toActionState("SUCCESS",
+        "Comment created.",
+        undefined, {
+        ...comment,
+        isOwner: true
+    })
 }
 
 export {createComment}

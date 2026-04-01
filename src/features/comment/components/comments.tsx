@@ -32,10 +32,20 @@ export const Comments = ({ticketId, paginatedComments}: CommentProps) => {
         setComments(prevComment =>
             prevComment.filter(comment => comment.id != id))
     }
+
+    //先把comment消息添加进数据库,然后把加入信息,通过回调函数返回给界面,加入comment队列
+    const handleCreateComment = (comment: CommentWithMetadata | undefined) => {
+        if (!comment) return
+
+        setComments((prevComments) => [comment, ...prevComments])
+    }
     return (
         <>
             <CardCompact title="Create Comment"
-                         content={<CreateCommentForm ticketId={ticketId}/>}
+                         content={<CreateCommentForm
+                             ticketId={ticketId}
+                             onCreateComment={handleCreateComment}
+                         />}
                          description="A new comment will be created"
             />
             <div className="flex flex-col gap-x-2 ml-8">
@@ -56,7 +66,7 @@ export const Comments = ({ticketId, paginatedComments}: CommentProps) => {
             </div>
             <div className="flex flex-col gap-y-2 ml-8">
                 {metadata.hasNextPage && (
-                        <Button onClick={handleMore} variant="ghost">
+                    <Button onClick={handleMore} variant="ghost">
                         More
                     </Button>)}
             </div>
