@@ -26,6 +26,12 @@ export const Comments = ({ticketId, paginatedComments}: CommentProps) => {
 
         setComments([...comments, ...moreComments])
     }
+
+    //过滤掉已删除id记录
+    const handleDeleteComment = (id: string) => {
+        setComments(prevComment =>
+            prevComment.filter(comment => comment.id != id))
+    }
     return (
         <>
             <CardCompact title="Create Comment"
@@ -38,15 +44,21 @@ export const Comments = ({ticketId, paginatedComments}: CommentProps) => {
                                  comment={comment}
                                  buttons={[
                                      ...(comment.isOwner
-                                         ? [<DeleteCommentButton key="0" id={comment.id}/>]
+                                         ? [<DeleteCommentButton
+                                             key="0"
+                                             id={comment.id}
+                                             onDeleteComment={handleDeleteComment}
+                                         />]
                                          : [])
                                  ]}
                     />
                 ))}
             </div>
             <div className="flex flex-col gap-y-2 ml-8">
-                {metadata.hasNextPage
-                    && (<Button onClick={handleMore} variant="ghost">More</Button>)}
+                {metadata.hasNextPage && (
+                        <Button onClick={handleMore} variant="ghost">
+                        More
+                    </Button>)}
             </div>
         </>
     )

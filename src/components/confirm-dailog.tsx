@@ -15,6 +15,7 @@ type  useConfirmDialogProps = {
     description?: string,
     action: () => Promise<ActionState>,
     trigger: React.ReactElement
+    onSuccess?: (actionState: ActionState) => void
 }
 
 const useConfirmDialog = ({
@@ -22,25 +23,26 @@ const useConfirmDialog = ({
                               description = "This action cannot be undone. Make sure you understand the consequences.",
                               action,
                               trigger,
+                              onSuccess
                           }: useConfirmDialogProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const [actionState, formAction, ] = useActionState(action, EMPTY_ACTION_STATE)
+    const [actionState, formAction,] = useActionState(action, EMPTY_ACTION_STATE)
 
     const handleSuccess = () => {
         setIsOpen(false)
+        onSuccess?.(actionState)
     }
 
     //当触发器被抽出后,不能在原AlertDialog中使用AlertDialogTrigger
     const dialogTrigger = cloneElement(
         // typeof trigger === "function" ? trigger(isPending) : trigger, {
-            trigger, {
+        trigger, {
 
             onClick: () => setIsOpen(state => !state)
         })
     const dialog = (
         <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-            {/*<AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>*/}
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>{title}</AlertDialogTitle>
