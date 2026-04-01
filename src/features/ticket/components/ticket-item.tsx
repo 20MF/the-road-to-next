@@ -13,12 +13,14 @@ import {isOwner} from "@/features/auth/utils/is-owner";
 import {Comments} from "@/features/comment/components/comments";
 import {Suspense} from "react";
 import {Skeleton} from "@/components/ui/skeleton";
+import {CommentWithMetadata} from "@/features/comment/types";
 
 type TicketProps = {
     ticket: TicketWithMetadata
     isDetail: boolean
+    comments?: CommentWithMetadata[]
 }
-const TicketItem = async ({ticket, isDetail}: TicketProps
+const TicketItem = async ({ticket, isDetail, comments}: TicketProps
 ) => {
     const {user} = await getAuth()
     const isTicketOwner = isOwner(user, ticket)
@@ -58,7 +60,7 @@ const TicketItem = async ({ticket, isDetail}: TicketProps
                 <Card className="w-full">
                     <CardHeader>
                         <CardTitle className="flex gap-x-2">
-                            <span>{TICKET_ICONS[ticket!.status]}</span>
+                            <span>{TICKET_ICONS[ticket.status]}</span>
                             <span className="truncate">{ticket!.title}</span>
                         </CardTitle>
                     </CardHeader>
@@ -91,18 +93,8 @@ const TicketItem = async ({ticket, isDetail}: TicketProps
                     )}
                 </div>
             </div>
-            {isDetail ? (
-                <Suspense
-                    fallback={
-                        <div className="flex flex-col gap-x-4">
-                            <Skeleton className="h-[250px] w-full"/>
-                            <Skeleton className="h-[80px] ml-8"/>
-                            <Skeleton className="h-[80px] ml-8"/>
-                        </div>
-                    }>
-                    <Comments ticketId={ticket.id}/>
-                </Suspense>
-            ) : null}
+            {isDetail ?
+                <Comments ticketId={ticket.id} comments={comments}/> : null}
         </div>
     )
 }

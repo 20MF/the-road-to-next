@@ -5,13 +5,13 @@ import {CreateCommentForm} from "@/features/comment/components/create-comment-fo
 import {getAuth} from "@/features/auth/queries/get-auth";
 import {isOwner} from "@/features/auth/utils/is-owner";
 import {DeleteCommentButton} from "@/features/comment/components/delete-comment-button";
+import {CommentWithMetadata} from "@/features/comment/types";
 
 type CommentProps = {
     ticketId: string
+    comments:CommentWithMetadata[]
 }
-export const Comments = async ({ticketId}: CommentProps) => {
-    const comments = await getComments(ticketId)
-
+export const Comments = async ({ticketId,comments=[]}: CommentProps) => {
     const {user} = await getAuth()
 
     return (
