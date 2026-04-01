@@ -11,6 +11,8 @@ import {TicketWithMetadata} from "@/features/ticket/types";
 import {getAuth} from "@/features/auth/queries/get-auth";
 import {isOwner} from "@/features/auth/utils/is-owner";
 import {Comments} from "@/features/comment/components/comments";
+import {Suspense} from "react";
+import {Skeleton} from "@/components/ui/skeleton";
 
 type TicketProps = {
     ticket: TicketWithMetadata
@@ -89,7 +91,18 @@ const TicketItem = async ({ticket, isDetail}: TicketProps
                     )}
                 </div>
             </div>
-            {isDetail ? <Comments ticketId={ticket.id}/> : null}
+            {isDetail ? (
+                <Suspense
+                    fallback={
+                        <div className="flex flex-col gap-x-4">
+                            <Skeleton className="h-[250px] w-full"/>
+                            <Skeleton className="h-[80px] ml-8"/>
+                            <Skeleton className="h-[80px] ml-8"/>
+                        </div>
+                    }>
+                    <Comments ticketId={ticket.id}/>
+                </Suspense>
+            ) : null}
         </div>
     )
 }
