@@ -11,11 +11,12 @@ import {TicketMoreMenu} from "@/features/ticket/components/ticket-more-menu";
 import {TicketWithMetadata} from "@/features/ticket/types";
 import {Comments} from "@/features/comment/components/comments";
 import {CommentWithMetadata} from "@/features/comment/types";
+import React from "react";
 
 type TicketProps = {
     ticket: TicketWithMetadata
     isDetail: boolean
-    comments?: CommentWithMetadata[]
+    comments?: React.ReactNode
 }
 
 /**
@@ -101,8 +102,9 @@ const TicketItem = ({ticket, isDetail, comments}: TicketProps
                     )}
                 </div>
             </div>
-            {isDetail ?
-                <Comments ticketId={ticket.id} comments={comments}/> : null}
+            {/*{isDetail ?*/}
+            {/*    <Comments ticketId={ticket.id} comments={comments}/> : null}*/}
+            {comments}
         </div>
     )
 }

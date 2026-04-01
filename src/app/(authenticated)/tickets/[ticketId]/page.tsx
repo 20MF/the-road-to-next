@@ -4,6 +4,7 @@ import {notFound} from "next/navigation";
 import {Breadcrumbs} from "@/components/breadcrumbs";
 import {homePath, ticketPath} from "@/paths";
 import {getComments} from "@/features/comment/queries/get-comments";
+import {Comments} from "@/features/comment/components/comments";
 
 export type TicketProps = {
     params: Promise<{
@@ -34,7 +35,9 @@ const TicketPage = async ({params}: TicketProps) => {
                 ]}/>
             </div>
             <div className="flex justify-center animate-fade-from-top">
-                <TicketItem ticket={ticket} isDetail comments={comments}/>
+                <TicketItem ticket={ticket}
+                            isDetail
+                            comments={<Comments ticketId={ticket.id} comments={comments}/>}/>
             </div>
         </>
     )
