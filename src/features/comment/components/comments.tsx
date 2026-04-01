@@ -17,9 +17,13 @@ type CommentProps = {
 }
 export const Comments = ({ticketId, paginatedComments}: CommentProps) => {
     const [comments, setComments] = useState(paginatedComments.list);
+    const [metadata, setMetadata] = useState(paginatedComments.metadata);
+
     const handleMore = async () => {
-        const morePaginatedComments = await getComments(ticketId)
+        const morePaginatedComments = await getComments(ticketId, comments.length)
+
         const moreComments = morePaginatedComments.list
+
         setComments([...comments, ...moreComments])
     }
     return (
@@ -41,7 +45,8 @@ export const Comments = ({ticketId, paginatedComments}: CommentProps) => {
                 ))}
             </div>
             <div className="flex flex-col gap-y-2 ml-8">
-                <Button onClick={handleMore} variant="ghost">More</Button>
+                {metadata.hasNextPage
+                    && (<Button onClick={handleMore} variant="ghost">More</Button>)}
             </div>
         </>
     )
