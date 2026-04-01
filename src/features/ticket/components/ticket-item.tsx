@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import Link from "next/link";
 import {ticketEditPath, ticketPath} from "@/paths";
@@ -20,15 +20,19 @@ type TicketProps = {
 
 /**
  * 有时需要把组件定义成客户端组件,客户端组件具有状态值和交互的特征
+ *
  * 当组件中出现数据请求时,它只能是服务器端组件
+ *
  * 通过请求前置到action层,使服务器端组件变成客户端组件
+ *
  * 下例把isOwner定义到getTcikets中,作为ticket的属性
  * 成功的前置请求
+ *
+ * ** 注意事项: 当一个组件标记为use client ,那么它的子组件也必须是客户端组件,否则会报错
  */
 
 const TicketItem = async ({ticket, isDetail, comments}: TicketProps
 ) => {
-
     const detailButton = (
         <Button variant="outline" size="icon" asChild>
             <Link prefetch href={ticketPath(ticket!.id)}>

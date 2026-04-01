@@ -1,7 +1,6 @@
 import {prisma} from "@/lib/prisma";
 import {ParsedSearchParams} from "@/features/ticket/search-params";
 import {StringFilter} from "../../../../generated/prisma/commonInputTypes";
-import {getAuthOrRedirect} from "@/features/auth/queries/get-auth-or-redirect";
 import {getAuth} from "@/features/auth/queries/get-auth";
 import {isOwner} from "@/features/auth/utils/is-owner";
 
