@@ -1,3 +1,4 @@
+"use client"
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import Link from "next/link";
 import {ticketEditPath, ticketPath} from "@/paths";
@@ -8,11 +9,7 @@ import {clsx} from "clsx";
 import {toCurrencyFromCent} from "@/utils/currency";
 import {TicketMoreMenu} from "@/features/ticket/components/ticket-more-menu";
 import {TicketWithMetadata} from "@/features/ticket/types";
-import {getAuth} from "@/features/auth/queries/get-auth";
-import {isOwner} from "@/features/auth/utils/is-owner";
 import {Comments} from "@/features/comment/components/comments";
-import {Suspense} from "react";
-import {Skeleton} from "@/components/ui/skeleton";
 import {CommentWithMetadata} from "@/features/comment/types";
 
 type TicketProps = {
@@ -20,10 +17,17 @@ type TicketProps = {
     isDetail: boolean
     comments?: CommentWithMetadata[]
 }
+
+/**
+ * 有时需要把组件定义成客户端组件,客户端组件具有状态值和交互的特征
+ * 当组件中出现数据请求时,它只能是服务器端组件
+ * 通过请求前置到action层,使服务器端组件变成客户端组件
+ * 下例把isOwner定义到getTcikets中,作为ticket的属性
+ * 成功的前置请求
+ */
+
 const TicketItem = async ({ticket, isDetail, comments}: TicketProps
 ) => {
-    const {user} = await getAuth()
-    const isTicketOwner = isOwner(user, ticket)
 
     const detailButton = (
         <Button variant="outline" size="icon" asChild>
@@ -33,7 +37,7 @@ const TicketItem = async ({ticket, isDetail, comments}: TicketProps
         </Button>
     )
 
-    const editButton = isTicketOwner ? (
+    const editButton = ticket.isOwner ? (
         <Button variant="outline" size="icon" asChild>
             <Link prefetch href={ticketEditPath(ticket!.id)}>
                 <LucidePencil className="h-4 w-4"/>
@@ -41,7 +45,7 @@ const TicketItem = async ({ticket, isDetail, comments}: TicketProps
         </Button>
     ) : null
 
-    const moreMenu = isTicketOwner ? (<TicketMoreMenu
+    const moreMenu = ticket.isOwner ? (<TicketMoreMenu
         ticket={ticket}
         trigger={
             <Button variant="outline" size="icon">

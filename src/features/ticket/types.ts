@@ -1,6 +1,6 @@
  import {Prisma} from "../../../generated/prisma/client";
 
-export const TicketWithMetadata = Prisma.TicketGetPayload<{
+export type TicketWithMetadata = Prisma.TicketGetPayload<{
     include: {
         user: {
             select: {
@@ -8,5 +8,5 @@ export const TicketWithMetadata = Prisma.TicketGetPayload<{
             }
         }
     }
-}>
+}> & { isOwner: boolean };
 

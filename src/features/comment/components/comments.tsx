@@ -9,9 +9,9 @@ import {CommentWithMetadata} from "@/features/comment/types";
 
 type CommentProps = {
     ticketId: string
-    comments:CommentWithMetadata[]
+    comments?: CommentWithMetadata[]
 }
-export const Comments = async ({ticketId,comments=[]}: CommentProps) => {
+export const Comments = async ({ticketId, comments = []}: CommentProps) => {
     const {user} = await getAuth()
 
     return (
