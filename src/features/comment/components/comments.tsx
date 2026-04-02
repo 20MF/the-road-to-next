@@ -6,9 +6,11 @@ import {DeleteCommentButton} from "@/features/comment/components/delete-comment-
 import {CommentWithMetadata} from "@/features/comment/types";
 import {Button} from "@/components/ui/button";
 import {getComments} from "@/features/comment/queries/get-comments";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {PaginationData} from "@/types/pagination";
 import {useInfiniteQuery, useQueryClient} from "@tanstack/react-query";
+import {useInView} from "react-intersection-observer";
+import {Skeleton} from "@/components/ui/skeleton";
 
 type CommentProps = {
     ticketId: string
@@ -45,6 +47,13 @@ export const Comments = ({ticketId, paginatedComments}: CommentProps) => {
 
     const handleCreateComment = () => queryClient.invalidateQueries({queryKey})
 
+    const {ref, inView} = useInView()
+
+    useEffect(() => {
+        if (inView && hasNextPage && !isFetchingNextPage)
+            fetchNextPage()
+    }, [fetchNextPage, hasNextPage, inView, isFetchingNextPage]);
+
     return (
         <>
             <CardCompact title="Create Comment"
@@ -69,12 +78,25 @@ export const Comments = ({ticketId, paginatedComments}: CommentProps) => {
                                  ]}
                     />
                 ))}
+
+                {isFetchingNextPage && (
+                    <>
+                        <div className="flex gap-x-2">
+                            <Skeleton className="h-[82px] w-full"/>
+                            <Skeleton className="h-[40px] w-[40px]"/>
+                        </div>
+                        <div className="flex gap-x-2">
+                            <Skeleton className="h-[82px] w-full"/>
+                            <Skeleton className="h-[40px] w-[40px]"/>
+                        </div>
+                    </>
+                )}
             </div>
-            <div className="flex flex-col gap-y-2 ml-8">
-                {hasNextPage && (
-                    <Button onClick={handleMore} variant="ghost">
-                        More
-                    </Button>)}
+
+            <div ref={ref}>
+                {!hasNextPage && (
+                    <p className="text-right text-xs italic">No more comments.</p>
+                )}
             </div>
         </>
     )
