@@ -21,12 +21,19 @@ export const Comments = ({ticketId, paginatedComments}: CommentProps) => {
         queryFn: ({pageParam}) => getComments(ticketId, pageParam),
         initialPageParam: undefined as string | undefined,
         getNextPageParam: (lastPage) =>
-            lastPage.metadata.hasNextPage ? lastPage.metadata.cursor : undefined
+            lastPage.metadata.hasNextPage ? lastPage.metadata.cursor : undefined,
+        initialData: {
+            pages: [{
+                list: paginatedComments.list,
+                metadata: paginatedComments.metadata
+            }],
+            pageParams: [undefined]
+        }
     })
 
     //2、每个page是我们从获取评论中返回的对象之一,
     //3、把数据扁平话,最终得到评论列表
-    const comments = data?.pages.flatMap(page => page.list) ?? []
+    const comments = data?.pages.flatMap(page => page.list)
 
     //1、 每个单独的请求都会在本地缓存中处理一个页面
     const handleMore = () => fetchNextPage()
