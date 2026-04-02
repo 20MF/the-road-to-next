@@ -8,16 +8,17 @@ import {Button} from "@/components/ui/button";
 import {getComments} from "@/features/comment/queries/get-comments";
 import {useState} from "react";
 import {PaginationData} from "@/types/pagination";
-import {useInfiniteQuery} from "@tanstack/react-query";
+import {useInfiniteQuery, useQueryClient} from "@tanstack/react-query";
 
 type CommentProps = {
     ticketId: string
     paginatedComments: PaginationData<CommentWithMetadata>
 }
 export const Comments = ({ticketId, paginatedComments}: CommentProps) => {
+    const queryKey = ["comments", ticketId]
 
-    const {data, fetchNextPage, hasNextPage, isFetchingNextPage} = useInfiniteQuery({
-        queryKey: ["comments", ticketId],
+    const {data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch} = useInfiniteQuery({
+        queryKey,
         queryFn: ({pageParam}) => getComments(ticketId, pageParam),
         initialPageParam: undefined as string | undefined,
         getNextPageParam: (lastPage) =>
@@ -38,11 +39,11 @@ export const Comments = ({ticketId, paginatedComments}: CommentProps) => {
     //1、 每个单独的请求都会在本地缓存中处理一个页面
     const handleMore = () => fetchNextPage()
 
-    const handleDeleteComment = (id: string) => {
-    }
+    const queryClient = useQueryClient()
 
-    const handleCreateComment = (comment: CommentWithMetadata | undefined) => {
-    }
+    const handleDeleteComment = (id: string) => queryClient.invalidateQueries({queryKey})
+
+    const handleCreateComment = () => queryClient.invalidateQueries({queryKey})
 
     return (
         <>
