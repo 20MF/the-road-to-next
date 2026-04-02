@@ -8,35 +8,35 @@ import {Button} from "@/components/ui/button";
 import {getComments} from "@/features/comment/queries/get-comments";
 import {useState} from "react";
 import {PaginationData} from "@/types/pagination";
+import {useInfiniteQuery} from "@tanstack/react-query";
 
 type CommentProps = {
     ticketId: string
     paginatedComments: PaginationData<CommentWithMetadata>
 }
 export const Comments = ({ticketId, paginatedComments}: CommentProps) => {
-    const [comments, setComments] = useState(paginatedComments.list);
-    const [metadata, setMetadata] = useState(paginatedComments.metadata);
 
-    const handleMore = async () => {
-        const morePaginatedComments = await getComments(ticketId, metadata.cursor)
+    const {data, fetchNextPage, hasNextPage, isFetchingNextPage} = useInfiniteQuery({
+        queryKey: ["comments", ticketId],
+        queryFn: ({pageParam}) => getComments(ticketId, pageParam),
+        initialPageParam: undefined as string | undefined,
+        getNextPageParam: (lastPage) =>
+            lastPage.metadata.hasNextPage ? lastPage.metadata.cursor : undefined
+    })
 
-        const moreComments = morePaginatedComments.list
+    //2、每个page是我们从获取评论中返回的对象之一,
+    //3、把数据扁平话,最终得到评论列表
+    const comments = data?.pages.flatMap(page => page.list) ?? []
 
-        setComments([...comments, ...moreComments])
-    }
+    //1、 每个单独的请求都会在本地缓存中处理一个页面
+    const handleMore = () => fetchNextPage()
 
-    //过滤掉已删除id记录
     const handleDeleteComment = (id: string) => {
-        setComments(prevComment =>
-            prevComment.filter(comment => comment.id != id))
     }
 
-    //先把comment消息添加进数据库,然后把加入信息,通过回调函数返回给界面,加入comment队列
     const handleCreateComment = (comment: CommentWithMetadata | undefined) => {
-        if (!comment) return
-
-        setComments((prevComments) => [comment, ...prevComments])
     }
+
     return (
         <>
             <CardCompact title="Create Comment"
@@ -63,7 +63,7 @@ export const Comments = ({ticketId, paginatedComments}: CommentProps) => {
                 ))}
             </div>
             <div className="flex flex-col gap-y-2 ml-8">
-                {metadata.hasNextPage && (
+                {hasNextPage && (
                     <Button onClick={handleMore} variant="ghost">
                         More
                     </Button>)}

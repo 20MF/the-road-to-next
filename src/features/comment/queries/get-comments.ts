@@ -22,7 +22,7 @@ export const getComments = async (ticketId: string, cursor?: string) => {
     let [comments, count] = await prisma.$transaction([
             prisma.comment.findMany({
                 where,
-                take,
+                take:take+1,
                 include: {
                     user: {
                         select: {
