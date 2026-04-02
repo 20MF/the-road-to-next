@@ -1,7 +1,7 @@
 "use client"
 import {useConfirmDialog} from "@/components/confirm-dailog";
 import {Button} from "@/components/ui/button";
-import {LucideTrash} from "lucide-react";
+import {LucideLoaderCircle, LucideTrash} from "lucide-react";
 import {deleteComment} from "@/features/comment/actions/delete-comment";
 
 type DeleteCommentButtonProps = {
@@ -11,9 +11,12 @@ type DeleteCommentButtonProps = {
 const DeleteCommentButton = ({id, onDeleteComment}: DeleteCommentButtonProps) => {
     const [deleteButton, deleteDialog] = useConfirmDialog({
         action: deleteComment.bind(null, id),
-        trigger: (
+        trigger: (isPending) => (
             <Button variant="outline" size="icon">
-                <LucideTrash className="h-4 w-4"/>
+                {isPending
+                    ? <LucideLoaderCircle className="h-4 w-4 animate-spin"/>
+                    : <LucideTrash className="h-4 w-4"/>
+                }
             </Button>
         ),
         //onSuccess是个回调函数,当成功后,执行onDeleteComment事件
